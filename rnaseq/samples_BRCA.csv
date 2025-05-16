@@ -1,4 +1,4 @@
-barcode,subtype,OS,vita_status
+barcode,subtype,OS,vital_status
 TCGA-A1-A0SK,Basal,967,1
 TCGA-A1-A0SO,Basal,852,0
 TCGA-A1-A0SP,Basal,NA,0
