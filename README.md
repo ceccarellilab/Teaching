@@ -1,15 +1,15 @@
-# Shourt Course on cancer Bioinformatics
+# Shourt Course on Cancer Bioinformatics 2-13 June 2025
 
 ## Calendar
 
 - Week 1	2-6 June 2025, 11:00-13:00
   -   Biologica Databases, NCBI-ENTrez/GDC/Ensembl/cBioportal	
-  -	Yan	Next Generation Sequencing, data formats, indexing and alignment	
-   - Michele	Introduction to RNASeq data analaysis with R, Normalization, Differential Expression, PCA, Clustering, Pathway Analysis	R-studio	
+  -	Next Generation Sequencing, data formats, indexing and alignment	
+   - Introduction to RNASeq data analaysis with R, Normalization, Differential Expression, PCA, Clustering, Pathway Analysis		
 - Week 2	9-13 June 2025, 11:00-13:00
-  - Yan	DNA sequencing, somatic mutation calling, annotation, plotting, mutational signatures	CLI + R-studio	
-  - Michele	Introduction to Single-cell data analysis	R-studio	
-  - 2	Aris	Advanced Topics: spatial omics, network biology, AI	R-studio + Cytoscape	
+  - DNA sequencing, somatic mutation calling, annotation, plotting, mutational signatures	CLI + R-studio	
+  - Introduction to Single-cell data analysis	R-studio	
+  - Advanced Topics: spatial omics, network biology, AI	R-studio + Cytoscape	
 
 
 
