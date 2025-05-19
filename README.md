@@ -15,8 +15,9 @@
 
 ## Pre-requisites:
 
-1. Basic understanding of genomics and molecular biology
-2. All students are required to have access to the __SecureCane WiFi__.
-3. Students should be familiar with R 
-4. Basic understanding of linux teminal/CLI
+1. Participants should bring their laptop 
+2. All participants are required to have access to the __SecureCane WiFi__.
+3. Participants should be familiar with R 
+4. Basic understanding of linux teminal/CLI would be useful
+5. Basic understanding of genomics and molecular biology
    
