@@ -13,6 +13,10 @@
 
 
 
-## pre-requisites:
+## Pre-requisites:
 
-Students should be familiar with R and teminal/CLI. ALl students are required to have access to the __SecureCane WiFi__.
+1.Basic understanding of genomics and molecular biology
+2. All students are required to have access to the __SecureCane WiFi__.
+3. Students should be familiar with R 
+4. Basic understanding of linux teminal/CLI
+   
