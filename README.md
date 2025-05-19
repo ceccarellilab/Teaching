@@ -15,4 +15,4 @@
 
 ## pre-requisites:
 
-Students whould be familiar with R and teminal/CLI. ALl students are required to have access to the SecureCane WiFi.
+Students should be familiar with R and teminal/CLI. ALl students are required to have access to the __SecureCane WiFi__.
