@@ -5,7 +5,7 @@
 - Week 1	2-6 June 2025, 11:00-13:00
   -   Biologica Databases, NCBI-ENTrez/GDC/Ensembl/cBioportal	
   -	Next Generation Sequencing, data formats, indexing and alignment	
-   - Introduction to RNASeq data analaysis with R, Normalization, Differential Expression, PCA, Clustering, Pathway Analysis		
+   - Introduction to [RNASeq data analysis with R](./rnaseq/RNAseqExample.md): Normalization, Differential Expression, PCA, Clustering, Pathway Analysis		
 - Week 2	9-13 June 2025, 11:00-13:00
   - DNA sequencing, somatic mutation calling, annotation, plotting, mutational signatures	CLI + R-studio	
   - Introduction to Single-cell data analysis	R-studio	
