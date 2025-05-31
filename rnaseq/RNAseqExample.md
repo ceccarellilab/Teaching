@@ -5,7 +5,7 @@ Michele Ceccarelli
 
 ## Introduction to RNA-seq Analysis Workflow
 
-We typical RNA-seq Analysis Workflow begins with *Data Exploration*,
+The typical RNA-seq Analysis Workflow begins with *Data Exploration*,
 where the user performs initial exploratory analyses to evaluate data
 quality, perform normalization, detect outliers, assess sample
 relationships (e.g., via PCA or clustering), and identify potential
