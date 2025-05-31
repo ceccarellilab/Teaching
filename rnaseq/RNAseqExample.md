@@ -3,11 +3,127 @@ RNASeq analysis workflow
 Michele Ceccarelli
 2025-05-24
 
-## Introduction to RNA-seq
+## Introduction to RNA-seq Analysis Workflow
+
+We introduce the process begins with *Data Exploration*, where the user
+performs initial exploratory analyses to evaluate data quality, perform
+normalization, detect outliers, assess sample relationships (e.g., via
+PCA or clustering), and identify potential batch effects. The next step
+is *Differential Expression*, which involves identifying genes whose
+expression levels significantly differ between experimental conditions
+or groups. Following this, *Gene Annotation* is conducted to assign
+biological meaning to the differentially expressed genes by mapping them
+to known gene names, symbols, or functional descriptors using curated
+databases. Finally, the analysis proceeds to *Functional Annotation and
+Gene Set Testing*, where enriched biological pathways or gene sets
+(e.g. Gene Ontology) are enriched to provide insight into the biological
+processes or molecular functions associated with the observed expression
+changes.
+
+<figure>
+<img src="./img/WF.png" alt="Workflow" />
+<figcaption aria-hidden="true">Workflow</figcaption>
+</figure>
+
+A *Normalization* step is needed before differential analysis to
+accounted for various factors can introduce bias that can introduce
+bias. - Library Size: Different samples can have different sequencing
+depths, affecting total read counts. - Gene Properties: Features like
+gene length, GC content, and sequence can influence how reads map to
+genes. - Library Composition: Because expression is measured relatively,
+a highly expressed gene can skew the apparent expression of others — a
+phenomenon known as composition bias.
+
+Normalization adjusts for these factors to make gene expression levels
+comparable across samples. It typicallyinvolves two key steps: scaling
+and transformation. Scaling adjusts raw counts using sample-specific
+size factors to account for differences in sequencing depth.
+Transformation then converts scaled data into formats like counts per
+million, log2 values, or Pearson residuals to stabilize variance. While
+normalization removes technical variability, it tryes preserves
+biological differences, enabling accurate comparison between samples.
+
+The primary goal of *Differential analysis* is to identify genes that
+are significantly differentially expressed between the groups by
+performing statistical tests for each gene independently across the `N`
+genes in the dataset. The differential analysis is based os some
+statistcal test that try to account for the inherent noise in the
+process. Noise can arise from two broad categories: biological
+variation, which reflects true differences between samples, individuals,
+and groups and technical variation, which includes noise introduced
+during the experimental process.
+
+A *test statistics* is calculated as *the effect size* (difference
+between treatment and control means) divided by the *standard error*
+(which depends on sample variance and sample size). This statistic is
+then used to derive a *p-value*, which helps assess whether observed
+differences are statistically significant. The key idea is that the
+statistic depends on both the magnitude of the effect and the
+variability of the data, with larger sample sizes reducing uncertainty.
+
+### DESeq2 Workflow
+
+DESeq2, is popular R package for differential gene expression analysis
+using RNA-seq count data. Its main components are
+
+- Estimate size factors
+
+  - This step normalizes for differences in sequencing depth across
+    samples. It adjusts for varying library sizes to ensure that gene
+    expression levels are comparable between samples.
+
+- Estimate gene-wise dispersion
+
+  - DESeq2 then estimates dispersion (biological variability) for each
+    gene across replicates. Dispersion reflects how much gene expression
+    varies, which is crucial for accurately modeling count data.
+
+- Fit curve to gene-wise dispersion estimates -A smooth curve is fitted
+  to the dispersion estimates as a function of mean expression. This
+  models the relationship between variability and expression strength,
+  allowing for a more stable inference.
+
+- Shrink gene-wise dispersion estimates
+
+  - Empirical Bayes shrinkage is applied to the dispersion estimates,
+    borrowing strength across genes. This improves estimation,
+    especially for genes with low counts or few replicates.
+
+- GLM fit for each gene
+
+  - Finally, a generalized linear model (GLM) is fitted for each gene
+    using the estimated dispersions. This model is used to test for
+    differential expression between experimental conditions (e.g.,
+    treatment vs control).
+
+<figure>
+<img src="./img/DESEq2.png" alt="DESeq2" />
+<figcaption aria-hidden="true">DESeq2</figcaption>
+</figure>
+
+*DESeq2* Normalization
+
+- For each gene in Sample A, we take the raw read count.
+
+- Geometric Mean Across All Samples: For each gene, compute the
+  geometric mean of its read counts across all samples. This serves as a
+  reference expression level for that gene.
+
+- Ratio Calculation: For every gene in the Sample, we compute the ratio
+  between gene counts the its geometric mean across samples. This
+  produces a vector of ratios.
+
+- Take the Median of Ratios: The median of all these gene-wise ratios is
+  taken. This value becomes the scaling factor for Sample A.
+
+<figure>
+<img src="./img/DESeq2_Norm.jpg" alt="Normalization" />
+<figcaption aria-hidden="true">Normalization</figcaption>
+</figure>
 
 ## Preparing the environment
 
-We wull use several R packages some available on CRAN which can be
+We will use several R packages some available on CRAN which can be
 installed using the `install.package()` command, some of the are
 available as
 <a href="https://bioconductor.org/" target="_blank">Bioconductor</a>
@@ -26,7 +142,7 @@ library(clusterProfiler)
 library(org.Hs.eg.db)
 ```
 
-## Getting the data
+## Obtaining the data
 
 In this examples we will analyze a set of bulk rnaseq samples from the
 TCGA. A list of samples with associated metadata is available at
@@ -126,11 +242,10 @@ whereas the rows contain the genes
 rownames(counts)[1:20]
 ```
 
-    ##  [1] "ENSG00000000003.15" "ENSG00000000005.6"  "ENSG00000000419.13" "ENSG00000000457.14"
-    ##  [5] "ENSG00000000460.17" "ENSG00000000938.13" "ENSG00000000971.16" "ENSG00000001036.14"
-    ##  [9] "ENSG00000001084.13" "ENSG00000001167.14" "ENSG00000001460.18" "ENSG00000001461.17"
-    ## [13] "ENSG00000001497.18" "ENSG00000001561.7"  "ENSG00000001617.12" "ENSG00000001626.16"
-    ## [17] "ENSG00000001629.10" "ENSG00000001630.17" "ENSG00000001631.16" "ENSG00000002016.18"
+    ##  [1] "ENSG00000000003.15" "ENSG00000000005.6"  "ENSG00000000419.13" "ENSG00000000457.14" "ENSG00000000460.17"
+    ##  [6] "ENSG00000000938.13" "ENSG00000000971.16" "ENSG00000001036.14" "ENSG00000001084.13" "ENSG00000001167.14"
+    ## [11] "ENSG00000001460.18" "ENSG00000001461.17" "ENSG00000001497.18" "ENSG00000001561.7"  "ENSG00000001617.12"
+    ## [16] "ENSG00000001626.16" "ENSG00000001629.10" "ENSG00000001630.17" "ENSG00000001631.16" "ENSG00000002016.18"
 
 the count matrix contains the row counts:
 
@@ -250,7 +365,7 @@ logcounts <- log2(counts(d, normalized = FALSE) + 1)
 boxplot(logcounts)
 ```
 
-![](RNAseqExample_files/figure-gfm/unnamed-chunk-18-1.png)<!-- --> and
+![](RNAseqExample_files/figure-gfm/unnamed-chunk-104-1.png)<!-- --> and
 the distribution of the normalized counts.
 
 ``` r
@@ -258,25 +373,31 @@ logNormCounts <-log2(counts(d, normalized = TRUE) + 1)
 boxplot(logNormCounts)
 ```
 
-![](RNAseqExample_files/figure-gfm/unnamed-chunk-19-1.png)<!-- -->
+![](RNAseqExample_files/figure-gfm/unnamed-chunk-105-1.png)<!-- -->
 
-### PCA
-
-We can plot our samples over a lower-dimentional space using PCA. Before
-applying the PCA we need to perform a *variance stabilization* because
-PCA assumes that all features contribute equally to variance. However,
-in raw RNA-seq data high-count genes dominate PCA, while low-count genes
-and Variance scales with expression level, distorting distances between
-samples. The `vst` transformation makes gene variances independent of
-their expression level, ensures both low- and high-expression genes
-influence PCA, improve interpretability.
+### Dispersion plot
 
 ``` r
-vsd<-vst(d,blind=FALSE)
-plotPCA(vsd, intgroup = "subtype") 
+# Dispersion plot
+plotDispEsts(d)
 ```
 
-![](RNAseqExample_files/figure-gfm/unnamed-chunk-20-1.png)<!-- -->
+![](RNAseqExample_files/figure-gfm/unnamed-chunk-106-1.png)<!-- --> \###
+PCA We can plot our samples over a lower-dimentional space using PCA.
+Before applying the PCA we need to perform a *variance stabilization*
+because PCA assumes that all features contribute equally to variance.
+However, in raw RNA-seq data high-count genes dominate PCA, while
+low-count genes and Variance scales with expression level, distorting
+distances between samples. The `vst` transformation makes gene variances
+independent of their expression level, ensures both low- and
+high-expression genes influence PCA, improve interpretability.
+
+``` r
+vst<-rlog(d,blind=FALSE)
+plotPCA(vst, intgroup = "subtype") 
+```
+
+![](RNAseqExample_files/figure-gfm/unnamed-chunk-107-1.png)<!-- -->
 
 ### Basal specific genes
 
@@ -295,6 +416,7 @@ res_basal <- results(d,
                      contrast = contrast_basal,
                      alpha = 0.05
 )
+
 summary(res_basal)
 ```
 
@@ -310,8 +432,12 @@ summary(res_basal)
     ## [2] see 'independentFiltering' argument of ?results
 
 we got ~4208 up and 3535 downregulated genes. We can be more stringent
-by defining a cutoff on the fold change. If we wanted to perform
-*pairwise comparison*, the command could be simply:
+by defining a cutoff on the fold change.
+
+![](RNAseqExample_files/figure-gfm/unnamed-chunk-109-1.png)<!-- -->
+
+If we wanted to perform *pairwise comparison*, the command could be
+simply:
 
 ``` r
 res_basal_vs_ER <- results(
@@ -363,8 +489,8 @@ id_mapping <- bitr(
 
     ## 'select()' returned 1:many mapping between keys and columns
 
-    ## Warning in bitr(res_basal_df$ENSEMBL, fromType = "ENSEMBL", toType = "SYMBOL", : 18.11% of input
-    ## gene IDs are fail to map...
+    ## Warning in bitr(res_basal_df$ENSEMBL, fromType = "ENSEMBL", toType = "SYMBOL", : 18.14% of input gene IDs are
+    ## fail to map...
 
 ``` r
 # Merge mapped SYMBOLs
@@ -376,48 +502,27 @@ res_basal_df <- res_basal_df %>%
 head(res_basal_df,n=20)
 ```
 
-    ##            ENSEMBL   baseMean log2FoldChange     lfcSE      stat       pvalue         padj
-    ## 1  ENSG00000154548  152.42081       4.590050 0.3098403 14.814244 1.185151e-49 1.381116e-45
-    ## 2  ENSG00000054598 1989.82672       4.219405 0.3155371 13.372137 8.797587e-41 5.126134e-37
-    ## 3  ENSG00000148798  337.00940       8.078004 0.6330125 12.761208 2.699809e-37 8.989207e-34
-    ## 4  ENSG00000203688  131.63664       5.832416 0.4636387 12.579657 2.732128e-36 7.075302e-33
-    ## 5  ENSG00000072041  329.81163       8.538061 0.7285237 11.719674 1.010598e-31 2.122607e-28
-    ## 6  ENSG00000184599  125.66594       5.186985 0.4428384 11.713043 1.092860e-31 2.122607e-28
-    ## 7  ENSG00000143452  242.22933       6.382076 0.5483568 11.638546 2.624525e-31 4.705370e-28
-    ## 8  ENSG00000154655  253.81964       2.991926 0.2636037 11.350089 7.408691e-30 1.079215e-26
-    ## 9  ENSG00000225194   73.07928       5.126034 0.4619657 11.096137 1.309839e-28 1.606759e-25
-    ## 10 ENSG00000225194   73.07928       5.126034 0.4619657 11.096137 1.309839e-28 1.606759e-25
-    ## 11 ENSG00000146281 1039.87071       3.431217 0.3171791 10.817915 2.831449e-27 2.823264e-24
-    ## 12 ENSG00000005513  259.02940       4.075835 0.3768515 10.815494 2.907209e-27 2.823264e-24
-    ## 13 ENSG00000112242 2026.88530       1.521312 0.1413152 10.765377 5.015579e-27 4.675924e-24
-    ## 14 ENSG00000167614  975.50030       4.798532 0.4485152 10.698705 1.032100e-26 8.591125e-24
-    ## 15 ENSG00000141639  236.19789       5.645261 0.5318236 10.614914 2.540282e-26 2.041598e-23
-    ## 16 ENSG00000114547  435.72205       5.615879 0.5330763 10.534850 5.967858e-26 4.346652e-23
-    ## 17 ENSG00000065371  363.61674       6.516547 0.6379889 10.214201 1.712843e-24 1.108923e-21
-    ## 18 ENSG00000183837  172.72398       4.564040 0.4488137 10.169120 2.723588e-24 1.715639e-21
-    ## 19 ENSG00000119787 4629.61947       1.702784 0.1695555 10.042636 9.899252e-24 5.768047e-21
-    ## 20 ENSG00000184697  134.06321       6.251913 0.6282096  9.951954 2.472795e-23 1.405693e-20
-    ##          SYMBOL
-    ## 1        SRSF12
-    ## 2         FOXC1
-    ## 3           INA
-    ## 4     LINC02487
-    ## 5       SLC6A15
-    ## 6         TAFA3
-    ## 7       HORMAD1
-    ## 8       L3MBTL4
-    ## 9     LINC00092
-    ## 10 LOC105376159
-    ## 11       PM20D2
-    ## 12         SOX8
-    ## 13         E2F3
-    ## 14        TTYH1
-    ## 15        MAPK4
-    ## 16       ROPN1B
-    ## 17        ROPN1
-    ## 18        PNMA3
-    ## 19         ATL2
-    ## 20        CLDN6
+    ##            ENSEMBL   baseMean log2FoldChange     lfcSE      stat       pvalue         padj       SYMBOL
+    ## 1  ENSG00000154548  152.42081       4.590050 0.3098403 14.814244 1.185151e-49 1.381116e-45       SRSF12
+    ## 2  ENSG00000054598 1989.82672       4.219405 0.3155371 13.372137 8.797587e-41 5.126134e-37        FOXC1
+    ## 3  ENSG00000148798  337.00940       8.078004 0.6330125 12.761208 2.699809e-37 8.989207e-34          INA
+    ## 4  ENSG00000203688  131.63664       5.832416 0.4636387 12.579657 2.732128e-36 7.075302e-33    LINC02487
+    ## 5  ENSG00000072041  329.81163       8.538061 0.7285237 11.719674 1.010598e-31 2.122607e-28      SLC6A15
+    ## 6  ENSG00000184599  125.66594       5.186985 0.4428384 11.713043 1.092860e-31 2.122607e-28        TAFA3
+    ## 7  ENSG00000143452  242.22933       6.382076 0.5483568 11.638546 2.624525e-31 4.705370e-28      HORMAD1
+    ## 8  ENSG00000154655  253.81964       2.991926 0.2636037 11.350089 7.408691e-30 1.079215e-26      L3MBTL4
+    ## 9  ENSG00000225194   73.07928       5.126034 0.4619657 11.096137 1.309839e-28 1.606759e-25    LINC00092
+    ## 10 ENSG00000225194   73.07928       5.126034 0.4619657 11.096137 1.309839e-28 1.606759e-25 LOC105376159
+    ## 11 ENSG00000146281 1039.87071       3.431217 0.3171791 10.817915 2.831449e-27 2.823264e-24       PM20D2
+    ## 12 ENSG00000005513  259.02940       4.075835 0.3768515 10.815494 2.907209e-27 2.823264e-24         SOX8
+    ## 13 ENSG00000112242 2026.88530       1.521312 0.1413152 10.765377 5.015579e-27 4.675924e-24         E2F3
+    ## 14 ENSG00000167614  975.50030       4.798532 0.4485152 10.698705 1.032100e-26 8.591125e-24        TTYH1
+    ## 15 ENSG00000141639  236.19789       5.645261 0.5318236 10.614914 2.540282e-26 2.041598e-23        MAPK4
+    ## 16 ENSG00000114547  435.72205       5.615879 0.5330763 10.534850 5.967858e-26 4.346652e-23       ROPN1B
+    ## 17 ENSG00000065371  363.61674       6.516547 0.6379889 10.214201 1.712843e-24 1.108923e-21        ROPN1
+    ## 18 ENSG00000183837  172.72398       4.564040 0.4488137 10.169120 2.723588e-24 1.715639e-21        PNMA3
+    ## 19 ENSG00000119787 4629.61947       1.702784 0.1695555 10.042636 9.899252e-24 5.768047e-21         ATL2
+    ## 20 ENSG00000184697  134.06321       6.251913 0.6282096  9.951954 2.472795e-23 1.405693e-20        CLDN6
 
 There are multiple genes known to be associated with the Basal subtype.
 FOXC1 is a aaster regulator of basal-like breast cancer (TNBC) and other
@@ -441,9 +546,9 @@ res_basal_sig <- res_basal_df %>%
 dim(res_basal_sig)
 ```
 
-    ## [1] 3709    8
+    ## [1] 3708    8
 
-we got 3709 up-regulated genes. If we wanted both up-and down-regulated
+we got 3708 up-regulated genes. If we wanted both up-and down-regulated
 genes we could have used `abs(stat)>2` as filter.
 
 ### Functional Annotation: Gene Ontology Enrichment
@@ -479,14 +584,14 @@ terms with a `dotplot`
 dotplot(ego, showCategory = 20) + ggtitle("GO Biological Process Enrichment of Basal tumors")
 ```
 
-![](RNAseqExample_files/figure-gfm/unnamed-chunk-29-1.png)<!-- --> Or
+![](RNAseqExample_files/figure-gfm/unnamed-chunk-117-1.png)<!-- --> Or
 with a `barplot`
 
 ``` r
 barplot(ego, showCategory = 15, title = "GO BP Enrichment", sortBy = "pvalue")
 ```
 
-![](RNAseqExample_files/figure-gfm/unnamed-chunk-30-1.png)<!-- -->
+![](RNAseqExample_files/figure-gfm/unnamed-chunk-118-1.png)<!-- -->
 
 we can also use Gene Set Enrichment Analysys. In this case we will
 enrich the the complete, unfiltered list, of *Wald statistics* which is
@@ -497,7 +602,7 @@ broad. Remeber we have already ordered the `res_basal_df` data.frame.
 ``` r
 geneList <- res_basal_df$stat # wald test values 
 names(geneList) <- res_basal_df$SYMBOL # gene names associated to the values 
-geneList<-geneList[!duplicated(geneList)] # remove duplicates
+geneList<-geneList[!duplicated(names(geneList))] # remove duplicates
 #Download the gene set c5 (Gene Ontology) Biological Process from the Broad 
 term2gene<-read.gmt("https://data.broadinstitute.org/gsea-msigdb/msigdb/release/2023.1.Hs/c5.go.bp.v2023.1.Hs.symbols.gmt")
 
@@ -510,12 +615,14 @@ gsea_go <- GSEA(
 )
 ```
 
-    ## Warning in preparePathwaysAndStats(pathways, stats, minSize, maxSize, gseaParam, : There are
-    ## duplicate gene names, fgsea may produce unexpected results.
+    ## Warning in preparePathwaysAndStats(pathways, stats, minSize, maxSize, gseaParam, : There are ties in the preranked stats (0.95% of the list).
+    ## The order of those tied genes will be arbitrary, which may produce unexpected results.
 
-    ## Warning in fgseaMultilevel(pathways = pathways, stats = stats, minSize = minSize, : For some
-    ## pathways, in reality P-values are less than 1e-10. You can set the `eps` argument to zero for
-    ## better estimation.
+    ## Warning in fgseaMultilevel(pathways = pathways, stats = stats, minSize = minSize, : For some of the pathways
+    ## the P-values were likely overestimated. For such pathways log2err is set to NA.
+
+    ## Warning in fgseaMultilevel(pathways = pathways, stats = stats, minSize = minSize, : For some pathways, in
+    ## reality P-values are less than 1e-10. You can set the `eps` argument to zero for better estimation.
 
 We can plot the results as dotplot
 
@@ -526,7 +633,7 @@ dotplot(gsea_go,
 )
 ```
 
-![](RNAseqExample_files/figure-gfm/unnamed-chunk-32-1.png)<!-- --> as a
+![](RNAseqExample_files/figure-gfm/unnamed-chunk-120-1.png)<!-- --> as a
 *ridgeplot*
 
 ``` r
@@ -535,7 +642,7 @@ ridgeplot(gsea_go, showCategory = 15)
 
     ## Picking joint bandwidth of 0.523
 
-![](RNAseqExample_files/figure-gfm/unnamed-chunk-33-1.png)<!-- -->
+![](RNAseqExample_files/figure-gfm/unnamed-chunk-121-1.png)<!-- -->
 
 or we can plot individual categories
 
@@ -543,7 +650,7 @@ or we can plot individual categories
 gseaplot(gsea_go, geneSetID = 3, title = gsea_go$Description[3])
 ```
 
-![](RNAseqExample_files/figure-gfm/unnamed-chunk-34-1.png)<!-- -->
+![](RNAseqExample_files/figure-gfm/unnamed-chunk-122-1.png)<!-- -->
 
 # Survival Analysis
 
@@ -590,4 +697,4 @@ p<-ggsurvplot(
 p
 ```
 
-![](RNAseqExample_files/figure-gfm/unnamed-chunk-36-1.png)<!-- -->
+![](RNAseqExample_files/figure-gfm/unnamed-chunk-124-1.png)<!-- -->
