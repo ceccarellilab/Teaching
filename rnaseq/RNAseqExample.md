@@ -5,20 +5,20 @@ Michele Ceccarelli
 
 ## Introduction to RNA-seq Analysis Workflow
 
-We introduce the process begins with *Data Exploration*, where the user
-performs initial exploratory analyses to evaluate data quality, perform
-normalization, detect outliers, assess sample relationships (e.g., via
-PCA or clustering), and identify potential batch effects. The next step
-is *Differential Expression*, which involves identifying genes whose
-expression levels significantly differ between experimental conditions
-or groups. Following this, *Gene Annotation* is conducted to assign
-biological meaning to the differentially expressed genes by mapping them
-to known gene names, symbols, or functional descriptors using curated
-databases. Finally, the analysis proceeds to *Functional Annotation and
-Gene Set Testing*, where enriched biological pathways or gene sets
-(e.g. Gene Ontology) are enriched to provide insight into the biological
-processes or molecular functions associated with the observed expression
-changes.
+We typical RNA-seq Analysis Workflow begins with *Data Exploration*,
+where the user performs initial exploratory analyses to evaluate data
+quality, perform normalization, detect outliers, assess sample
+relationships (e.g., via PCA or clustering), and identify potential
+batch effects. The next step is *Differential Expression*, which
+involves identifying genes whose expression levels significantly differ
+between experimental conditions or groups. Following this, *Gene
+Annotation* is conducted to assign biological meaning to the
+differentially expressed genes by mapping them to known gene names,
+symbols, or functional descriptors using curated databases. Finally, the
+analysis proceeds to *Functional Annotation and Gene Set Testing*, where
+enriched biological pathways or gene sets (e.g. Gene Ontology) are
+enriched to provide insight into the biological processes or molecular
+functions associated with the observed expression changes.
 
 <figure>
 <img src="./img/WF.png" alt="Workflow" />
@@ -32,16 +32,15 @@ depths, affecting total read counts. - Gene Properties: Features like
 gene length, GC content, and sequence can influence how reads map to
 genes. - Library Composition: Because expression is measured relatively,
 a highly expressed gene can skew the apparent expression of others — a
-phenomenon known as composition bias.
-
-Normalization adjusts for these factors to make gene expression levels
-comparable across samples. It typicallyinvolves two key steps: scaling
-and transformation. Scaling adjusts raw counts using sample-specific
-size factors to account for differences in sequencing depth.
-Transformation then converts scaled data into formats like counts per
-million, log2 values, or Pearson residuals to stabilize variance. While
-normalization removes technical variability, it tryes preserves
-biological differences, enabling accurate comparison between samples.
+phenomenon known as composition bias. Normalization adjusts for these
+factors to make gene expression levels comparable across samples. It
+typicallyinvolves two key steps: scaling and transformation. Scaling
+adjusts raw counts using sample-specific size factors to account for
+differences in sequencing depth. Transformation then converts scaled
+data into formats like counts per million, log2 values, or Pearson
+residuals to stabilize variance. While normalization removes technical
+variability, it tryes preserves biological differences, enabling
+accurate comparison between samples.
 
 The primary goal of *Differential analysis* is to identify genes that
 are significantly differentially expressed between the groups by
@@ -365,7 +364,7 @@ logcounts <- log2(counts(d, normalized = FALSE) + 1)
 boxplot(logcounts)
 ```
 
-![](RNAseqExample_files/figure-gfm/unnamed-chunk-104-1.png)<!-- --> and
+![](RNAseqExample_files/figure-gfm/unnamed-chunk-18-1.png)<!-- --> and
 the distribution of the normalized counts.
 
 ``` r
@@ -373,7 +372,7 @@ logNormCounts <-log2(counts(d, normalized = TRUE) + 1)
 boxplot(logNormCounts)
 ```
 
-![](RNAseqExample_files/figure-gfm/unnamed-chunk-105-1.png)<!-- -->
+![](RNAseqExample_files/figure-gfm/unnamed-chunk-19-1.png)<!-- -->
 
 ### Dispersion plot
 
@@ -382,7 +381,7 @@ boxplot(logNormCounts)
 plotDispEsts(d)
 ```
 
-![](RNAseqExample_files/figure-gfm/unnamed-chunk-106-1.png)<!-- --> \###
+![](RNAseqExample_files/figure-gfm/unnamed-chunk-20-1.png)<!-- --> \###
 PCA We can plot our samples over a lower-dimentional space using PCA.
 Before applying the PCA we need to perform a *variance stabilization*
 because PCA assumes that all features contribute equally to variance.
@@ -397,7 +396,7 @@ vst<-rlog(d,blind=FALSE)
 plotPCA(vst, intgroup = "subtype") 
 ```
 
-![](RNAseqExample_files/figure-gfm/unnamed-chunk-107-1.png)<!-- -->
+![](RNAseqExample_files/figure-gfm/unnamed-chunk-21-1.png)<!-- -->
 
 ### Basal specific genes
 
@@ -434,7 +433,7 @@ summary(res_basal)
 we got ~4208 up and 3535 downregulated genes. We can be more stringent
 by defining a cutoff on the fold change.
 
-![](RNAseqExample_files/figure-gfm/unnamed-chunk-109-1.png)<!-- -->
+![](RNAseqExample_files/figure-gfm/unnamed-chunk-23-1.png)<!-- -->
 
 If we wanted to perform *pairwise comparison*, the command could be
 simply:
@@ -584,14 +583,14 @@ terms with a `dotplot`
 dotplot(ego, showCategory = 20) + ggtitle("GO Biological Process Enrichment of Basal tumors")
 ```
 
-![](RNAseqExample_files/figure-gfm/unnamed-chunk-117-1.png)<!-- --> Or
+![](RNAseqExample_files/figure-gfm/unnamed-chunk-31-1.png)<!-- --> Or
 with a `barplot`
 
 ``` r
 barplot(ego, showCategory = 15, title = "GO BP Enrichment", sortBy = "pvalue")
 ```
 
-![](RNAseqExample_files/figure-gfm/unnamed-chunk-118-1.png)<!-- -->
+![](RNAseqExample_files/figure-gfm/unnamed-chunk-32-1.png)<!-- -->
 
 we can also use Gene Set Enrichment Analysys. In this case we will
 enrich the the complete, unfiltered list, of *Wald statistics* which is
@@ -633,7 +632,7 @@ dotplot(gsea_go,
 )
 ```
 
-![](RNAseqExample_files/figure-gfm/unnamed-chunk-120-1.png)<!-- --> as a
+![](RNAseqExample_files/figure-gfm/unnamed-chunk-34-1.png)<!-- --> as a
 *ridgeplot*
 
 ``` r
@@ -642,7 +641,7 @@ ridgeplot(gsea_go, showCategory = 15)
 
     ## Picking joint bandwidth of 0.523
 
-![](RNAseqExample_files/figure-gfm/unnamed-chunk-121-1.png)<!-- -->
+![](RNAseqExample_files/figure-gfm/unnamed-chunk-35-1.png)<!-- -->
 
 or we can plot individual categories
 
@@ -650,7 +649,7 @@ or we can plot individual categories
 gseaplot(gsea_go, geneSetID = 3, title = gsea_go$Description[3])
 ```
 
-![](RNAseqExample_files/figure-gfm/unnamed-chunk-122-1.png)<!-- -->
+![](RNAseqExample_files/figure-gfm/unnamed-chunk-36-1.png)<!-- -->
 
 # Survival Analysis
 
@@ -697,4 +696,4 @@ p<-ggsurvplot(
 p
 ```
 
-![](RNAseqExample_files/figure-gfm/unnamed-chunk-124-1.png)<!-- -->
+![](RNAseqExample_files/figure-gfm/unnamed-chunk-38-1.png)<!-- -->
