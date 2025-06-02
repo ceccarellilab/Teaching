@@ -157,7 +157,7 @@ Can you print it like?
  The length of X is Y
 where X is the transcript ID and Y is the length
 
-29) How many TP52 transcripts are longer than 10,000 bases? (Answer: 23)
+29) How many TP53 transcripts are longer than 10,000 bases? (Answer: 23)
 
 30) Go back to Question 18 and find how many distinct gene names (column 7) are in the file. Then:
     30.1) How many of them have a dot (.)? (hint: google for "escape character" and "how to grep a dot in bash")
@@ -167,4 +167,19 @@ where X is the transcript ID and Y is the length
 Congratulations! If you made it through all commands, then you are an advanced linux user!
 
 
+
+# **Exercise 2**
+
+Our goal is to intersect the coordinates of COSMIC mutations with genes. For simplicity, we will focus on chromosome 17. From UCSC Genome Browser, Table Browser, we have downloaded the bed file with the COSMIC information. To get this, run:
+
+```
+wget https://github.com/ceccarellilab/CancerBioinformaticsCourse/raw/refs/heads/main/Biological%20DB%20\(Aris\)/cosmicMuts_chr17.bed.gz
+```
+
+Now, find which coding gene overlaps with the most COSMIC entries.
+
+#
+_Aristeidis Telonis_
+
+_Email: atelonis@med.miami.edu_
 
