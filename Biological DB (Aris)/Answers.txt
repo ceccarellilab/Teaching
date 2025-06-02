@@ -1,0 +1,137 @@
+
+==================
+=== Exercise 1 ===
+
+### 1
+gunzip mart_export.txt.gz
+
+### 2
+wc mart_export.txt
+
+### 3
+wc -l mart_export.txt
+
+### 4
+head mart_export.txt
+
+### 5
+tail mart_export.txt
+
+### 6
+cut -f2 mart_export.txt
+
+### 7
+grep CLOCK mart_export.txt
+
+### 8
+grep -w TP53 mart_export.txt
+
+### 9
+cat mart_export.txt | head -n 135 | tail -n 1
+
+### 10
+cat mart_export.txt | grep CLOCK | cut -f5 | grep protein_coding | wc -l
+
+### 11
+ cat mart_export.txt | grep CLOCK | cut -f4 | sort
+
+### 12
+cat mart_export.txt | grep CLOCK | cut -f5 | sort | uniq
+
+### 13
+cat mart_export.txt | grep CLOCK | uniq
+
+### 14
+cat mart_export.txt | grep -w TP53 | cut -f 5 | sort | uniq | wc -l
+cat mart_export.txt | grep -w TP53 | cut -f 5 | sort | uniq -c
+cat mart_export.txt | grep -w TP53 | cut -f 5 | sort | uniq -c | sort -n
+
+### 15 (hard?)
+cat mart_export.txt | cut -f 6,8 | grep protein_coding | sort | uniq | wc -l
+
+### 16
+cat mart_export.txt | cut -f 6,8 | grep miRNA | sort | uniq | wc -l
+
+### 17
+cat mart_export.txt | cut -f 1,6,8 | grep protein_coding | sort | uniq | cut -f1 | sort | uniq -c | sort -n
+
+### 18
+cat mart_export.txt | cut -f7 | sort | uniq | wc -l
+18.1: cat mart_export.txt | cut -f7 | sort | uniq -d | wc -l
+18.2: cat mart_export.txt | cut -f7 | sort | uniq | grep A | wc -l
+
+### 19
+cat mart_export.txt | grep Mt_tRNA | cut -f6 > mt_tRNA_IDs.txt
+
+### 20
+cat mart_export.txt | awk '$1==15'
+
+### 21
+cat mart_export.txt | awk '$8=="protein_coding"' | awk '$1==16' | grep retained_intron | cut -f 6 | sort | uniq | wc -l
+cat mart_export.txt | awk '$8=="protein_coding"' | awk '$1==16' | cut -f 6 | sort | uniq | wc -l
+
+### 22
+cat mart_export.txt | awk '$8=="protein_coding"' | awk '$1==20' | grep retained_intron | cut -f 6 | sort | uniq | wc -l
+cat mart_export.txt | awk '$8=="protein_coding"' | awk '$1==20' | cut -f 6 | sort | uniq | wc -l
+
+on chromosome 16: 559 out of 816, i.e. 69%
+on chromosome 20: 128 out of 528, i.e. 24%
+Genes are not randomly distributed on chromosomes.
+
+### 23
+cat mart_export.txt | awk '$5=="protein_coding"' | cut -f 6,7 | sort | uniq -c | sort -n | tail -n1
+
+### 24
+cat mart_export.txt | awk '$8=="protein_coding"' | awk '$5!="protein_coding"' | cut -f 6,7 | sort | uniq -c | sort -n | tail -n1
+
+### 25
+cat mart_export.txt | awk '$8=="protein_coding"' | awk '$5!="protein_coding"' | cut -f 6,7 | sort | uniq -d | wc -l
+
+### 26
+cat mart_export.txt | grep CLOCK | cut -f 4 | tr '0' '1'
+
+## 27
+cat mart_export.txt | grep CLOCK  | cut -f 4 | sed 's/ENST/id/'
+
+### 28
+cat mart_export.txt | grep CLOCK | awk '{print $3-$2+1}'
+cat mart_export.txt | grep CLOCK | awk '{print "The length of",$4,"is",$3-$2+1}'
+
+### 29
+cat mart_export.txt | grep -w TP53 | awk '$3-$2+1>10000' | wc -l
+
+### 30
+cat mart_export.txt | cut -f7 | sort | uniq | grep "\." | wc -l
+cat mart_export.txt | cut -f7 | sort | uniq | grep "A.2" | wc -l
+
+
+==================
+=== Exercise 2 ===
+
+### Step 1 | Make a bed file containing coding genes, with the correct chromosome names. The way we make this file contains the coordinates of the transcripts, which means that when we intersect with the COSMIC entries, there will be duplicates, ie the same mutation returned multiple times (since transcripts overlap). We need to keep this in mind.
+
+cat mart_export.txt | grep protein_coding | cut -f 1,2,3,6,7 | awk '$1==17 {print "chr"$1,$2,$3,$4"|"$5}' | tr ' ' '\t' | sort | uniq > CodingGenes.bed
+
+### Step 2 | Intersect the genomic coordinates with the COSMIC entries. Bedtools intersect treats each line independently.
+
+bedtools intersect -a CodingGenes.bed -b cosmicMuts_chr17.bed -wa -wb > BI.Genes.Cosmic.txt
+
+
+### Step 3 | Disambiguate and rcount how many unique COSMIC mutations overlap each gene
+
+cat BI.Genes.Cosmic.txt | cut -f 4,8 | sort | uniq | cut -f1 | sort | uniq -c | sort -n | tail
+
+### output:
+###    3246 ENSG00000069188|SDK2
+###    3359 ENSG00000154240|CEP112
+###    3368 ENSG00000141564|RPTOR
+###    4004 ENSG00000187775|DNAH17
+###    4160 ENSG00000141376|BCAS3
+###    5030 ENSG00000141510|TP53
+###    5155 ENSG00000154975|CA10
+###    5434 ENSG00000196712|NF1
+###    5635 ENSG00000007174|DNAH9
+###    9979 ENSG00000108684|ASIC2
+
+
+
