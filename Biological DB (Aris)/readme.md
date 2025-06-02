@@ -34,7 +34,9 @@ The command can be something like 'wc' (for Word Count), argument(s) are used to
 # **EXERCISE 1**
 
 Download the file:
+```
 wget https://github.com/ceccarellilab/CancerBioinformaticsCourse/raw/refs/heads/main/Biological%20DB%20\(Aris\)/mart_export.txt.gz
+```
 
 1) Uncompress the file (hint: gunzip)
 
