@@ -38,6 +38,13 @@ Download the file:
 wget https://github.com/ceccarellilab/CancerBioinformaticsCourse/raw/refs/heads/main/Biological%20DB%20\(Aris\)/mart_export.txt.gz
 ```
 
+or
+
+```
+curl -O -L https://github.com/ceccarellilab/CancerBioinformaticsCourse/raw/refs/heads/main/Biological%20DB%20\(Aris\)/mart_export.txt.gz -o mart_export.txt.gz
+```
+
+
 1) Uncompress the file (hint: gunzip)
 
 2) Get the number of lines, words and characters in the uncompressed file (hint: wc)
@@ -175,6 +182,13 @@ Our goal is to intersect the coordinates of COSMIC mutations with genes. For sim
 ```
 wget https://github.com/ceccarellilab/CancerBioinformaticsCourse/raw/refs/heads/main/Biological%20DB%20\(Aris\)/cosmicMuts_chr17.bed.gz
 ```
+
+or
+
+```
+curl -O -L https://github.com/ceccarellilab/CancerBioinformaticsCourse/raw/refs/heads/main/Biological%20DB%20\(Aris\)/cosmicMuts_chr17.bed.gz -o cosmicMuts_chr17.bed.gz
+```
+
 
 Now, find which coding gene overlaps with the most COSMIC entries.
 
