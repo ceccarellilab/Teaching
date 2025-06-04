@@ -215,21 +215,29 @@ columns contain the samples
 colnames(counts)
 ```
 
-    ##  [1] "TCGA-A1-A0SK-01A-12R-A084-07" "TCGA-A1-A0SO-01A-22R-A084-07" "TCGA-A1-A0SP-01A-11R-A084-07"
-    ##  [4] "TCGA-A2-A04P-01A-31R-A034-07" "TCGA-A2-A04Q-01A-21R-A034-07" "TCGA-A2-A04T-01A-21R-A034-07"
-    ##  [7] "TCGA-A2-A04U-01A-11R-A115-07" "TCGA-A2-A0CM-01A-31R-A034-07" "TCGA-A2-A0D0-01A-11R-A00Z-07"
-    ## [10] "TCGA-A2-A0D2-01A-21R-A034-07" "TCGA-A2-A0ST-01A-12R-A084-07" "TCGA-A2-A0SX-01A-12R-A084-07"
-    ## [13] "TCGA-A2-A0T0-01A-22R-A084-07" "TCGA-A2-A0T2-01A-11R-A084-07" "TCGA-A2-A0YE-01A-11R-A109-07"
-    ## [16] "TCGA-3C-AALI-01A-11R-A41B-07" "TCGA-A2-A04W-01A-31R-A115-07" "TCGA-A2-A04X-01A-21R-A034-07"
-    ## [19] "TCGA-A2-A0CX-01A-21R-A00Z-07" "TCGA-A2-A0D1-01A-11R-A034-07" "TCGA-A2-A0EQ-01A-11R-A034-07"
-    ## [22] "TCGA-A2-A0T1-01A-21R-A084-07" "TCGA-A2-A3XV-01A-21R-A239-07" "TCGA-A2-A3XZ-01A-42R-A239-07"
-    ## [25] "TCGA-A7-A4SF-01A-11R-A266-07" "TCGA-A8-A07I-01A-11R-A00Z-07" "TCGA-A8-A08B-01A-11R-A00Z-07"
-    ## [28] "TCGA-A8-A08J-01A-11R-A00Z-07" "TCGA-A8-A08L-01A-11R-A00Z-07" "TCGA-A8-A08X-01A-21R-A00Z-07"
-    ## [31] "TCGA-3C-AAAU-01A-11R-A41B-07" "TCGA-3C-AALJ-01A-31R-A41B-07" "TCGA-3C-AALK-01A-11R-A41B-07"
-    ## [34] "TCGA-4H-AAAK-01A-12R-A41B-07" "TCGA-5L-AAT0-01A-12R-A41B-07" "TCGA-5L-AAT1-01A-12R-A41B-07"
-    ## [37] "TCGA-5T-A9QA-01A-11R-A41B-07" "TCGA-A1-A0SD-01A-11R-A115-07" "TCGA-A1-A0SE-01A-11R-A084-07"
-    ## [40] "TCGA-A1-A0SF-01A-11R-A144-07" "TCGA-A1-A0SG-01A-11R-A144-07" "TCGA-A1-A0SH-01A-11R-A084-07"
-    ## [43] "TCGA-A1-A0SI-01A-11R-A144-07" "TCGA-A1-A0SJ-01A-11R-A084-07" "TCGA-A1-A0SN-01A-11R-A144-07"
+    ##  [1] "TCGA-A1-A0SK-01A-12R-A084-07" "TCGA-A1-A0SO-01A-22R-A084-07"
+    ##  [3] "TCGA-A1-A0SP-01A-11R-A084-07" "TCGA-A2-A04P-01A-31R-A034-07"
+    ##  [5] "TCGA-A2-A04Q-01A-21R-A034-07" "TCGA-A2-A04T-01A-21R-A034-07"
+    ##  [7] "TCGA-A2-A04U-01A-11R-A115-07" "TCGA-A2-A0CM-01A-31R-A034-07"
+    ##  [9] "TCGA-A2-A0D0-01A-11R-A00Z-07" "TCGA-A2-A0D2-01A-21R-A034-07"
+    ## [11] "TCGA-A2-A0ST-01A-12R-A084-07" "TCGA-A2-A0SX-01A-12R-A084-07"
+    ## [13] "TCGA-A2-A0T0-01A-22R-A084-07" "TCGA-A2-A0T2-01A-11R-A084-07"
+    ## [15] "TCGA-A2-A0YE-01A-11R-A109-07" "TCGA-3C-AALI-01A-11R-A41B-07"
+    ## [17] "TCGA-A2-A04W-01A-31R-A115-07" "TCGA-A2-A04X-01A-21R-A034-07"
+    ## [19] "TCGA-A2-A0CX-01A-21R-A00Z-07" "TCGA-A2-A0D1-01A-11R-A034-07"
+    ## [21] "TCGA-A2-A0EQ-01A-11R-A034-07" "TCGA-A2-A0T1-01A-21R-A084-07"
+    ## [23] "TCGA-A2-A3XV-01A-21R-A239-07" "TCGA-A2-A3XZ-01A-42R-A239-07"
+    ## [25] "TCGA-A7-A4SF-01A-11R-A266-07" "TCGA-A8-A07I-01A-11R-A00Z-07"
+    ## [27] "TCGA-A8-A08B-01A-11R-A00Z-07" "TCGA-A8-A08J-01A-11R-A00Z-07"
+    ## [29] "TCGA-A8-A08L-01A-11R-A00Z-07" "TCGA-A8-A08X-01A-21R-A00Z-07"
+    ## [31] "TCGA-3C-AAAU-01A-11R-A41B-07" "TCGA-3C-AALJ-01A-31R-A41B-07"
+    ## [33] "TCGA-3C-AALK-01A-11R-A41B-07" "TCGA-4H-AAAK-01A-12R-A41B-07"
+    ## [35] "TCGA-5L-AAT0-01A-12R-A41B-07" "TCGA-5L-AAT1-01A-12R-A41B-07"
+    ## [37] "TCGA-5T-A9QA-01A-11R-A41B-07" "TCGA-A1-A0SD-01A-11R-A115-07"
+    ## [39] "TCGA-A1-A0SE-01A-11R-A084-07" "TCGA-A1-A0SF-01A-11R-A144-07"
+    ## [41] "TCGA-A1-A0SG-01A-11R-A144-07" "TCGA-A1-A0SH-01A-11R-A084-07"
+    ## [43] "TCGA-A1-A0SI-01A-11R-A144-07" "TCGA-A1-A0SJ-01A-11R-A084-07"
+    ## [45] "TCGA-A1-A0SN-01A-11R-A144-07"
 
 these are the “barcodes” of the tcga samples. Barcodes have the
 following meaning ![TCGA
@@ -241,10 +249,13 @@ whereas the rows contain the genes
 rownames(counts)[1:20]
 ```
 
-    ##  [1] "ENSG00000000003.15" "ENSG00000000005.6"  "ENSG00000000419.13" "ENSG00000000457.14" "ENSG00000000460.17"
-    ##  [6] "ENSG00000000938.13" "ENSG00000000971.16" "ENSG00000001036.14" "ENSG00000001084.13" "ENSG00000001167.14"
-    ## [11] "ENSG00000001460.18" "ENSG00000001461.17" "ENSG00000001497.18" "ENSG00000001561.7"  "ENSG00000001617.12"
-    ## [16] "ENSG00000001626.16" "ENSG00000001629.10" "ENSG00000001630.17" "ENSG00000001631.16" "ENSG00000002016.18"
+    ##  [1] "ENSG00000000003.15" "ENSG00000000005.6"  "ENSG00000000419.13"
+    ##  [4] "ENSG00000000457.14" "ENSG00000000460.17" "ENSG00000000938.13"
+    ##  [7] "ENSG00000000971.16" "ENSG00000001036.14" "ENSG00000001084.13"
+    ## [10] "ENSG00000001167.14" "ENSG00000001460.18" "ENSG00000001461.17"
+    ## [13] "ENSG00000001497.18" "ENSG00000001561.7"  "ENSG00000001617.12"
+    ## [16] "ENSG00000001626.16" "ENSG00000001629.10" "ENSG00000001630.17"
+    ## [19] "ENSG00000001631.16" "ENSG00000002016.18"
 
 the count matrix contains the row counts:
 
@@ -311,7 +322,7 @@ d <- DESeqDataSetFromMatrix(countData = counts,
 
 ### Filtering low expressed genes
 
-let’ first remove low expressed genes. We have 60660 samples and 45
+let’ first remove low expressed genes. We have 45 samples and 60660
 genes. Suppose we select genes that having at least **15 counts** in at
 least \_5 samples\_\_.
 
@@ -349,7 +360,7 @@ d <- DESeq(d)
 
     ## fitting model and testing
 
-    ## -- replacing outliers and refitting for 9947 genes
+    ## -- replacing outliers and refitting for 1337 genes
     ## -- DESeq argument 'minReplicatesForReplace' = 7 
     ## -- original counts are preserved in counts(dds)
 
@@ -392,7 +403,7 @@ independent of their expression level, ensures both low- and
 high-expression genes influence PCA, improve interpretability.
 
 ``` r
-vst<-rlog(d,blind=FALSE)
+vst<-vst(d)
 plotPCA(vst, intgroup = "subtype") 
 ```
 
@@ -422,16 +433,22 @@ summary(res_basal)
     ## 
     ## out of 23307 with nonzero total read count
     ## adjusted p-value < 0.05
-    ## LFC > 0 (up)       : 4208, 18%
-    ## LFC < 0 (down)     : 3535, 15%
+    ## LFC > 0 (up)       : 4612, 20%
+    ## LFC < 0 (down)     : 3767, 16%
     ## outliers [1]       : 0, 0%
     ## low counts [2]     : 0, 0%
-    ## (mean count < 1)
+    ## (mean count < 2)
     ## [1] see 'cooksCutoff' argument of ?results
     ## [2] see 'independentFiltering' argument of ?results
 
 we got ~4208 up and 3535 downregulated genes. We can be more stringent
-by defining a cutoff on the fold change.
+by defining a cutoff on the fold change. We can plot how the fold-change
+and expression are related in the Differentially expressed genes
+
+``` r
+plotMA(res_basal, ylim = c(-2, 2), alpha = 0.05, 
+        main = "MA Plot (Raw LFC)")
+```
 
 ![](RNAseqExample_files/figure-gfm/unnamed-chunk-23-1.png)<!-- -->
 
@@ -458,14 +475,22 @@ head(res_basal)
     ## log2 fold change (MLE): +1,-0.5,-0.5 
     ## Wald test p-value: +1,-0.5,-0.5 
     ## DataFrame with 6 rows and 6 columns
-    ##                      baseMean log2FoldChange     lfcSE      stat    pvalue      padj
-    ##                     <numeric>      <numeric> <numeric> <numeric> <numeric> <numeric>
-    ## ENSG00000000003.15 2989.53452       0.646969  0.256848  2.518874 0.0117731 0.0378632
-    ## ENSG00000000005.6     7.41335      -0.134104  0.544876 -0.246118 0.8055907 0.8762028
-    ## ENSG00000000419.13 2435.82163       0.365685  0.191467  1.909909 0.0561450 0.1301180
-    ## ENSG00000000457.14 1179.83407      -0.435856  0.189515 -2.299849 0.0214568 0.0609498
-    ## ENSG00000000460.17  621.59608       0.542008  0.232435  2.331870 0.0197075 0.0570376
-    ## ENSG00000000938.13  413.66365      -0.189445  0.237497 -0.797676 0.4250588 0.5759793
+    ##                      baseMean log2FoldChange     lfcSE      stat    pvalue
+    ##                     <numeric>      <numeric> <numeric> <numeric> <numeric>
+    ## ENSG00000000003.15 3062.09486       0.572666  0.267107  2.143961 0.0320360
+    ## ENSG00000000005.6     9.67242      -0.555985  0.587776 -0.945913 0.3441929
+    ## ENSG00000000419.13 2435.82163       0.365685  0.191467  1.909909 0.0561450
+    ## ENSG00000000457.14 1179.83407      -0.435856  0.189515 -2.299849 0.0214568
+    ## ENSG00000000460.17  621.59608       0.542008  0.232435  2.331870 0.0197075
+    ## ENSG00000000938.13  500.02134       0.568789  0.284195  2.001401 0.0453491
+    ##                         padj
+    ##                    <numeric>
+    ## ENSG00000000003.15 0.0794238
+    ## ENSG00000000005.6  0.4861892
+    ## ENSG00000000419.13 0.1239436
+    ## ENSG00000000457.14 0.0575746
+    ## ENSG00000000460.17 0.0538102
+    ## ENSG00000000938.13 0.1045349
 
 We now annotate the resuls with gene names. We have multiple options. We
 will use the `bitr` command in the ClusterProfiler package. Before
@@ -488,8 +513,8 @@ id_mapping <- bitr(
 
     ## 'select()' returned 1:many mapping between keys and columns
 
-    ## Warning in bitr(res_basal_df$ENSEMBL, fromType = "ENSEMBL", toType = "SYMBOL", : 18.14% of input gene IDs are
-    ## fail to map...
+    ## Warning in bitr(res_basal_df$ENSEMBL, fromType = "ENSEMBL", toType =
+    ## "SYMBOL", : 18.14% of input gene IDs are fail to map...
 
 ``` r
 # Merge mapped SYMBOLs
@@ -501,27 +526,48 @@ res_basal_df <- res_basal_df %>%
 head(res_basal_df,n=20)
 ```
 
-    ##            ENSEMBL   baseMean log2FoldChange     lfcSE      stat       pvalue         padj       SYMBOL
-    ## 1  ENSG00000154548  152.42081       4.590050 0.3098403 14.814244 1.185151e-49 1.381116e-45       SRSF12
-    ## 2  ENSG00000054598 1989.82672       4.219405 0.3155371 13.372137 8.797587e-41 5.126134e-37        FOXC1
-    ## 3  ENSG00000148798  337.00940       8.078004 0.6330125 12.761208 2.699809e-37 8.989207e-34          INA
-    ## 4  ENSG00000203688  131.63664       5.832416 0.4636387 12.579657 2.732128e-36 7.075302e-33    LINC02487
-    ## 5  ENSG00000072041  329.81163       8.538061 0.7285237 11.719674 1.010598e-31 2.122607e-28      SLC6A15
-    ## 6  ENSG00000184599  125.66594       5.186985 0.4428384 11.713043 1.092860e-31 2.122607e-28        TAFA3
-    ## 7  ENSG00000143452  242.22933       6.382076 0.5483568 11.638546 2.624525e-31 4.705370e-28      HORMAD1
-    ## 8  ENSG00000154655  253.81964       2.991926 0.2636037 11.350089 7.408691e-30 1.079215e-26      L3MBTL4
-    ## 9  ENSG00000225194   73.07928       5.126034 0.4619657 11.096137 1.309839e-28 1.606759e-25    LINC00092
-    ## 10 ENSG00000225194   73.07928       5.126034 0.4619657 11.096137 1.309839e-28 1.606759e-25 LOC105376159
-    ## 11 ENSG00000146281 1039.87071       3.431217 0.3171791 10.817915 2.831449e-27 2.823264e-24       PM20D2
-    ## 12 ENSG00000005513  259.02940       4.075835 0.3768515 10.815494 2.907209e-27 2.823264e-24         SOX8
-    ## 13 ENSG00000112242 2026.88530       1.521312 0.1413152 10.765377 5.015579e-27 4.675924e-24         E2F3
-    ## 14 ENSG00000167614  975.50030       4.798532 0.4485152 10.698705 1.032100e-26 8.591125e-24        TTYH1
-    ## 15 ENSG00000141639  236.19789       5.645261 0.5318236 10.614914 2.540282e-26 2.041598e-23        MAPK4
-    ## 16 ENSG00000114547  435.72205       5.615879 0.5330763 10.534850 5.967858e-26 4.346652e-23       ROPN1B
-    ## 17 ENSG00000065371  363.61674       6.516547 0.6379889 10.214201 1.712843e-24 1.108923e-21        ROPN1
-    ## 18 ENSG00000183837  172.72398       4.564040 0.4488137 10.169120 2.723588e-24 1.715639e-21        PNMA3
-    ## 19 ENSG00000119787 4629.61947       1.702784 0.1695555 10.042636 9.899252e-24 5.768047e-21         ATL2
-    ## 20 ENSG00000184697  134.06321       6.251913 0.6282096  9.951954 2.472795e-23 1.405693e-20        CLDN6
+    ##            ENSEMBL   baseMean log2FoldChange     lfcSE     stat
+    ## 1  ENSG00000154548  152.42081       4.590050 0.3098403 14.81424
+    ## 2  ENSG00000054598 2721.31233       4.715138 0.3327376 14.17074
+    ## 3  ENSG00000272620  429.90462       6.460033 0.4640934 13.91968
+    ## 4  ENSG00000203688  131.63664       5.832416 0.4636387 12.57966
+    ## 5  ENSG00000184599  125.66594       5.186985 0.4428384 11.71304
+    ## 6  ENSG00000143452  242.22933       6.382076 0.5483568 11.63855
+    ## 7  ENSG00000154655  253.81964       2.991926 0.2636037 11.35009
+    ## 8  ENSG00000225194   73.07928       5.126034 0.4619657 11.09614
+    ## 9  ENSG00000225194   73.07928       5.126034 0.4619657 11.09614
+    ## 10 ENSG00000146281 1039.87071       3.431217 0.3171791 10.81792
+    ## 11 ENSG00000005513  259.02940       4.075835 0.3768515 10.81549
+    ## 12 ENSG00000167614  975.50030       4.798532 0.4485152 10.69871
+    ## 13 ENSG00000174607  938.74391       5.242621 0.4903540 10.69150
+    ## 14 ENSG00000146013  130.97143       5.020818 0.4757219 10.55410
+    ## 15 ENSG00000114547  435.72205       5.615879 0.5330763 10.53485
+    ## 16 ENSG00000072041  331.79698       8.094986 0.7733165 10.46788
+    ## 17 ENSG00000213064 6365.66270       1.776989 0.1699732 10.45453
+    ## 18 ENSG00000103355   32.59448       6.634163 0.6374974 10.40657
+    ## 19 ENSG00000065371  363.61674       6.516547 0.6379889 10.21420
+    ## 20 ENSG00000112242 2043.70637       1.494583 0.1467297 10.18596
+    ##          pvalue         padj       SYMBOL
+    ## 1  1.185151e-49 1.381116e-45       SRSF12
+    ## 2  1.390294e-45 1.080119e-41        FOXC1
+    ## 3  4.810261e-44 2.242255e-40    AFAP1-AS1
+    ## 4  2.732128e-36 7.075302e-33    LINC02487
+    ## 5  1.092860e-31 1.959329e-28        TAFA3
+    ## 6  2.624525e-31 4.369272e-28      HORMAD1
+    ## 7  7.408691e-30 1.015732e-26      L3MBTL4
+    ## 8  1.309839e-28 1.327323e-25    LINC00092
+    ## 9  1.309839e-28 1.327323e-25 LOC105376159
+    ## 10 2.831449e-27 2.336494e-24       PM20D2
+    ## 11 2.907209e-27 2.336494e-24         SOX8
+    ## 12 1.032100e-26 7.759726e-24        TTYH1
+    ## 13 1.115491e-26 8.124612e-24         UGT8
+    ## 14 4.862605e-26 3.333316e-23        GFRA3
+    ## 15 5.967858e-26 3.863691e-23       ROPN1B
+    ## 16 1.213281e-25 7.642685e-23      SLC6A15
+    ## 17 1.396937e-25 8.348309e-23       SFT2D2
+    ## 18 2.314007e-25 1.348314e-22       PRSS33
+    ## 19 1.712843e-24 9.505057e-22        ROPN1
+    ## 20 2.290984e-24 1.241766e-21         E2F3
 
 There are multiple genes known to be associated with the Basal subtype.
 FOXC1 is a aaster regulator of basal-like breast cancer (TNBC) and other
@@ -545,9 +591,9 @@ res_basal_sig <- res_basal_df %>%
 dim(res_basal_sig)
 ```
 
-    ## [1] 3708    8
+    ## [1] 4093    8
 
-we got 3708 up-regulated genes. If we wanted both up-and down-regulated
+we got 4093 up-regulated genes. If we wanted both up-and down-regulated
 genes we could have used `abs(stat)>2` as filter.
 
 ### Functional Annotation: Gene Ontology Enrichment
@@ -614,14 +660,16 @@ gsea_go <- GSEA(
 )
 ```
 
-    ## Warning in preparePathwaysAndStats(pathways, stats, minSize, maxSize, gseaParam, : There are ties in the preranked stats (0.95% of the list).
+    ## Warning in preparePathwaysAndStats(pathways, stats, minSize, maxSize, gseaParam, : There are ties in the preranked stats (0.96% of the list).
     ## The order of those tied genes will be arbitrary, which may produce unexpected results.
 
-    ## Warning in fgseaMultilevel(pathways = pathways, stats = stats, minSize = minSize, : For some of the pathways
-    ## the P-values were likely overestimated. For such pathways log2err is set to NA.
+    ## Warning in fgseaMultilevel(pathways = pathways, stats = stats, minSize =
+    ## minSize, : For some of the pathways the P-values were likely overestimated.
+    ## For such pathways log2err is set to NA.
 
-    ## Warning in fgseaMultilevel(pathways = pathways, stats = stats, minSize = minSize, : For some pathways, in
-    ## reality P-values are less than 1e-10. You can set the `eps` argument to zero for better estimation.
+    ## Warning in fgseaMultilevel(pathways = pathways, stats = stats, minSize =
+    ## minSize, : For some pathways, in reality P-values are less than 1e-10. You
+    ## can set the `eps` argument to zero for better estimation.
 
 We can plot the results as dotplot
 
@@ -639,7 +687,7 @@ dotplot(gsea_go,
 ridgeplot(gsea_go, showCategory = 15)
 ```
 
-    ## Picking joint bandwidth of 0.523
+    ## Picking joint bandwidth of 0.484
 
 ![](RNAseqExample_files/figure-gfm/unnamed-chunk-35-1.png)<!-- -->
 
@@ -687,7 +735,7 @@ and plot the curves using the `ggsurvplot` in the `survminer` package.
 p<-ggsurvplot(
   fit,
   pval = TRUE,
-  risk.table = TRUE,
+  risk.table = FALSE,
   palette = c("darkred", "darkgreen", "steelblue"),
   title = "Overall Survival by Breast Cancer Subtype",
   legend.title = "Subtype",
@@ -697,3 +745,18 @@ p
 ```
 
 ![](RNAseqExample_files/figure-gfm/unnamed-chunk-38-1.png)<!-- -->
+
+# Now it is your turn
+
+## Exercise 1. ER+ breast cancer
+
+Try to perform the same analysis extractinf the genes upregulated in the
+ER-positive brest bancer
+
+## Exercise 2.
+
+Draw a *Volcano Plot*, it is a scatterplot with the fold change on the
+*x* axis and -log(p-value) on the *y* axis. One point for every gene.
+try to color the DEGs in red and the other in gray as follows:
+
+![](RNAseqExample_files/figure-gfm/unnamed-chunk-39-1.png)<!-- -->
