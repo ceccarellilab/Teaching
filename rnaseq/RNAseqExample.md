@@ -59,6 +59,9 @@ then used to derive a *p-value*, which helps assess whether observed
 differences are statistically significant. The key idea is that the
 statistic depends on both the magnitude of the effect and the
 variability of the data, with larger sample sizes reducing uncertainty.
+TYpically is is calculated as:
+`effect_size/standard-error = (Treatment_mean-Control)/(variance*sqrt(n),`
+where `n` is the sample size.
 
 <figure>
 <img src="./img/DE.jpg" alt="DE" />
@@ -296,7 +299,7 @@ View(coldata)
 
 ## DESeq workflow
 
-We will use the DESeq2 workflow in thie exercise. DESeq2 provides
+We will use the DESeq2 workflow in this exercise. DESeq2 provides
 methods to test for differential expression by use of negative binomial
 generalized linear models. DESeq2 models RNA-seq data using the Negative
 Binomial distribution, which includes *dispersion*. The dispersion
@@ -761,7 +764,7 @@ p
 
 ## Exercise 1. ER+ breast cancer
 
-Try to perform the same analysis extractinf the genes upregulated in the
+Try to perform the same analysis extracting the genes upregulated in the
 ER-positive brest bancer
 
 ## Exercise 2.
