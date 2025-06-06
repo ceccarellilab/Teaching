@@ -60,6 +60,11 @@ differences are statistically significant. The key idea is that the
 statistic depends on both the magnitude of the effect and the
 variability of the data, with larger sample sizes reducing uncertainty.
 
+<figure>
+<img src="./img/DE.jpg" alt="DE" />
+<figcaption aria-hidden="true">DE</figcaption>
+</figure>
+
 ### DESeq2 Workflow
 
 DESeq2, is popular R package for differential gene expression analysis
@@ -375,8 +380,9 @@ logcounts <- log2(counts(d, normalized = FALSE) + 1)
 boxplot(logcounts)
 ```
 
-![](RNAseqExample_files/figure-gfm/unnamed-chunk-18-1.png)<!-- --> and
-the distribution of the normalized counts.
+![](RNAseqExample_files/figure-gfm/unnamed-chunk-18-1.png)<!-- -->
+
+and the distribution of the normalized counts.
 
 ``` r
 logNormCounts <-log2(counts(d, normalized = TRUE) + 1)
@@ -392,15 +398,18 @@ boxplot(logNormCounts)
 plotDispEsts(d)
 ```
 
-![](RNAseqExample_files/figure-gfm/unnamed-chunk-20-1.png)<!-- --> \###
-PCA We can plot our samples over a lower-dimentional space using PCA.
-Before applying the PCA we need to perform a *variance stabilization*
-because PCA assumes that all features contribute equally to variance.
-However, in raw RNA-seq data high-count genes dominate PCA, while
-low-count genes and Variance scales with expression level, distorting
-distances between samples. The `vst` transformation makes gene variances
-independent of their expression level, ensures both low- and
-high-expression genes influence PCA, improve interpretability.
+![](RNAseqExample_files/figure-gfm/unnamed-chunk-20-1.png)<!-- -->
+
+### PCA
+
+We can plot our samples over a lower-dimentional space using PCA. Before
+applying the PCA we need to perform a *variance stabilization* because
+PCA assumes that all features contribute equally to variance. However,
+in raw RNA-seq data high-count genes dominate PCA, while low-count genes
+and Variance scales with expression level, distorting distances between
+samples. The `vst` transformation makes gene variances independent of
+their expression level, ensures both low- and high-expression genes
+influence PCA, improve interpretability.
 
 ``` r
 vst<-vst(d)
@@ -526,48 +535,48 @@ res_basal_df <- res_basal_df %>%
 head(res_basal_df,n=20)
 ```
 
-    ##            ENSEMBL   baseMean log2FoldChange     lfcSE     stat
-    ## 1  ENSG00000154548  152.42081       4.590050 0.3098403 14.81424
-    ## 2  ENSG00000054598 2721.31233       4.715138 0.3327376 14.17074
-    ## 3  ENSG00000272620  429.90462       6.460033 0.4640934 13.91968
-    ## 4  ENSG00000203688  131.63664       5.832416 0.4636387 12.57966
-    ## 5  ENSG00000184599  125.66594       5.186985 0.4428384 11.71304
-    ## 6  ENSG00000143452  242.22933       6.382076 0.5483568 11.63855
-    ## 7  ENSG00000154655  253.81964       2.991926 0.2636037 11.35009
-    ## 8  ENSG00000225194   73.07928       5.126034 0.4619657 11.09614
-    ## 9  ENSG00000225194   73.07928       5.126034 0.4619657 11.09614
-    ## 10 ENSG00000146281 1039.87071       3.431217 0.3171791 10.81792
-    ## 11 ENSG00000005513  259.02940       4.075835 0.3768515 10.81549
-    ## 12 ENSG00000167614  975.50030       4.798532 0.4485152 10.69871
-    ## 13 ENSG00000174607  938.74391       5.242621 0.4903540 10.69150
-    ## 14 ENSG00000146013  130.97143       5.020818 0.4757219 10.55410
-    ## 15 ENSG00000114547  435.72205       5.615879 0.5330763 10.53485
-    ## 16 ENSG00000072041  331.79698       8.094986 0.7733165 10.46788
-    ## 17 ENSG00000213064 6365.66270       1.776989 0.1699732 10.45453
-    ## 18 ENSG00000103355   32.59448       6.634163 0.6374974 10.40657
-    ## 19 ENSG00000065371  363.61674       6.516547 0.6379889 10.21420
-    ## 20 ENSG00000112242 2043.70637       1.494583 0.1467297 10.18596
-    ##          pvalue         padj       SYMBOL
-    ## 1  1.185151e-49 1.381116e-45       SRSF12
-    ## 2  1.390294e-45 1.080119e-41        FOXC1
-    ## 3  4.810261e-44 2.242255e-40    AFAP1-AS1
-    ## 4  2.732128e-36 7.075302e-33    LINC02487
-    ## 5  1.092860e-31 1.959329e-28        TAFA3
-    ## 6  2.624525e-31 4.369272e-28      HORMAD1
-    ## 7  7.408691e-30 1.015732e-26      L3MBTL4
-    ## 8  1.309839e-28 1.327323e-25    LINC00092
-    ## 9  1.309839e-28 1.327323e-25 LOC105376159
-    ## 10 2.831449e-27 2.336494e-24       PM20D2
-    ## 11 2.907209e-27 2.336494e-24         SOX8
-    ## 12 1.032100e-26 7.759726e-24        TTYH1
-    ## 13 1.115491e-26 8.124612e-24         UGT8
-    ## 14 4.862605e-26 3.333316e-23        GFRA3
-    ## 15 5.967858e-26 3.863691e-23       ROPN1B
-    ## 16 1.213281e-25 7.642685e-23      SLC6A15
-    ## 17 1.396937e-25 8.348309e-23       SFT2D2
-    ## 18 2.314007e-25 1.348314e-22       PRSS33
-    ## 19 1.712843e-24 9.505057e-22        ROPN1
-    ## 20 2.290984e-24 1.241766e-21         E2F3
+    ##            ENSEMBL   baseMean log2FoldChange     lfcSE     stat       pvalue
+    ## 1  ENSG00000154548  152.42081       4.590050 0.3098403 14.81424 1.185151e-49
+    ## 2  ENSG00000054598 2721.31233       4.715138 0.3327376 14.17074 1.390294e-45
+    ## 3  ENSG00000272620  429.90462       6.460033 0.4640934 13.91968 4.810261e-44
+    ## 4  ENSG00000203688  131.63664       5.832416 0.4636387 12.57966 2.732128e-36
+    ## 5  ENSG00000184599  125.66594       5.186985 0.4428384 11.71304 1.092860e-31
+    ## 6  ENSG00000143452  242.22933       6.382076 0.5483568 11.63855 2.624525e-31
+    ## 7  ENSG00000154655  253.81964       2.991926 0.2636037 11.35009 7.408691e-30
+    ## 8  ENSG00000225194   73.07928       5.126034 0.4619657 11.09614 1.309839e-28
+    ## 9  ENSG00000225194   73.07928       5.126034 0.4619657 11.09614 1.309839e-28
+    ## 10 ENSG00000146281 1039.87071       3.431217 0.3171791 10.81792 2.831449e-27
+    ## 11 ENSG00000005513  259.02940       4.075835 0.3768515 10.81549 2.907209e-27
+    ## 12 ENSG00000167614  975.50030       4.798532 0.4485152 10.69871 1.032100e-26
+    ## 13 ENSG00000174607  938.74391       5.242621 0.4903540 10.69150 1.115491e-26
+    ## 14 ENSG00000146013  130.97143       5.020818 0.4757219 10.55410 4.862605e-26
+    ## 15 ENSG00000114547  435.72205       5.615879 0.5330763 10.53485 5.967858e-26
+    ## 16 ENSG00000072041  331.79698       8.094986 0.7733165 10.46788 1.213281e-25
+    ## 17 ENSG00000213064 6365.66270       1.776989 0.1699732 10.45453 1.396937e-25
+    ## 18 ENSG00000103355   32.59448       6.634163 0.6374974 10.40657 2.314007e-25
+    ## 19 ENSG00000065371  363.61674       6.516547 0.6379889 10.21420 1.712843e-24
+    ## 20 ENSG00000112242 2043.70637       1.494583 0.1467297 10.18596 2.290984e-24
+    ##            padj       SYMBOL
+    ## 1  1.381116e-45       SRSF12
+    ## 2  1.080119e-41        FOXC1
+    ## 3  2.242255e-40    AFAP1-AS1
+    ## 4  7.075302e-33    LINC02487
+    ## 5  1.959329e-28        TAFA3
+    ## 6  4.369272e-28      HORMAD1
+    ## 7  1.015732e-26      L3MBTL4
+    ## 8  1.327323e-25    LINC00092
+    ## 9  1.327323e-25 LOC105376159
+    ## 10 2.336494e-24       PM20D2
+    ## 11 2.336494e-24         SOX8
+    ## 12 7.759726e-24        TTYH1
+    ## 13 8.124612e-24         UGT8
+    ## 14 3.333316e-23        GFRA3
+    ## 15 3.863691e-23       ROPN1B
+    ## 16 7.642685e-23      SLC6A15
+    ## 17 8.348309e-23       SFT2D2
+    ## 18 1.348314e-22       PRSS33
+    ## 19 9.505057e-22        ROPN1
+    ## 20 1.241766e-21         E2F3
 
 There are multiple genes known to be associated with the Basal subtype.
 FOXC1 is a aaster regulator of basal-like breast cancer (TNBC) and other
@@ -629,8 +638,9 @@ terms with a `dotplot`
 dotplot(ego, showCategory = 20) + ggtitle("GO Biological Process Enrichment of Basal tumors")
 ```
 
-![](RNAseqExample_files/figure-gfm/unnamed-chunk-31-1.png)<!-- --> Or
-with a `barplot`
+![](RNAseqExample_files/figure-gfm/unnamed-chunk-31-1.png)<!-- -->
+
+Or with a `barplot`
 
 ``` r
 barplot(ego, showCategory = 15, title = "GO BP Enrichment", sortBy = "pvalue")
@@ -680,8 +690,9 @@ dotplot(gsea_go,
 )
 ```
 
-![](RNAseqExample_files/figure-gfm/unnamed-chunk-34-1.png)<!-- --> as a
-*ridgeplot*
+![](RNAseqExample_files/figure-gfm/unnamed-chunk-34-1.png)<!-- -->
+
+as a *ridgeplot*
 
 ``` r
 ridgeplot(gsea_go, showCategory = 15)
