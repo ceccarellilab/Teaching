@@ -21,6 +21,7 @@ GSE211376</a>.
 
 ``` r
 count_mtx <- fread("https://github.com/ceccarellilab/CancerBioinformaticsCourse/raw/refs/heads/main/scRNASeq/sample_NH17-161_GSE211376.csv.gz")
+count_mtx <- as.data.frame(count_mtx)
 rownames(count_mtx)<- count_mtx$V1
 count_mtx$V1 <- NULL
 ```
