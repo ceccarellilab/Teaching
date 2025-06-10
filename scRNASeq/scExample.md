@@ -10,6 +10,7 @@ library(SCEVAN)
 library(Seurat)
 library(dplyr)
 library(readxl)
+library(data.table)
 ```
 
 ## Load the Data
@@ -19,7 +20,7 @@ We use a glioblastoma sample (NH17-161) form the study
 GSE211376</a>.
 
 ``` r
-count_mtx <- data.table::fread("https://github.com/ceccarellilab/CancerBioinformaticsCourse/raw/refs/heads/main/scRNASeq/sample_NH17-161_GSE211376.csv.gz")
+count_mtx <- fread("https://github.com/ceccarellilab/CancerBioinformaticsCourse/raw/refs/heads/main/scRNASeq/sample_NH17-161_GSE211376.csv.gz")
 rownames(count_mtx)<- count_mtx$V1
 count_mtx$V1 <- NULL
 ```
@@ -29,6 +30,11 @@ count_mtx$V1 <- NULL
 We can use
 <a target="_blank" href="https://github.com/AntonioDeFalco/SCEVAN">
 SCEVAN</a> to classify tumor/normal cells.
+
+<figure>
+<img src="./img/SCEVAN.jpg" alt="SCEVAN workflow" />
+<figcaption aria-hidden="true">SCEVAN workflow</figcaption>
+</figure>
 
 *SCEVAN* starts from the raw count matrix removing irrelevant genes and
 cells. *a* Identification of a small set of highly confident normal
@@ -45,11 +51,10 @@ classified in five copy number states. *h* Analysis of subclones
 including clone tree, pathway activities (GSEA was performed for each
 subclone using fgseaMultilevel which calculates P values based on an
 adaptive multilevel splitting Monte Carlo scheme), and characterization
-of shared and specific alterations. \<img
-src=“<https://www.nature.com/articles/s41467-023-36790-9/figures/1>”,
-alt=“SCEVAn Workflow”\>
+of shared and specific alterations.
 
 ``` r
+#CAN TAKE THREE-FIVE MINUTES
 results <-  SCEVAN::pipelineCNA(
   count_mtx = count_mtx, 
   sample = "NH17-161", 
@@ -78,7 +83,7 @@ results <-  SCEVAN::pipelineCNA(
     ## [1] "11) plot heatmap"
 
     ## [1] "found 2898 tumor cells"
-    ## [1] "time classify tumor cells:  2.78494794368744"
+    ## [1] "time classify tumor cells:  2.66238601605097"
 
 ``` r
 saveRDS(results, file = "resultSCEVAN_N17-161.RDS")
@@ -94,6 +99,10 @@ table(results[[1]])
     ## 
     ## filtered   normal    tumor 
     ##        5     1454     2898
+
+In the `output` folder you can finde the images `NH17-161heatmap.png`
+and `NH17-161_coarse-grainedClonalCNProfile.png` containing the
+tumor/normal classification and the detected copy number profiles.
 
 ![heatmap](./output/NH17-161heatmap.png)
 ![heatmap](./output/NH17-161_coarse-grainedClonalCNProfile.png)
@@ -123,8 +132,8 @@ VlnPlot(seurObj, features =
         ncol = 3)
 ```
 
-    ## Warning: Default search for "data" layer in "RNA" assay yielded no results; utilizing "counts" layer
-    ## instead.
+    ## Warning: Default search for "data" layer in "RNA" assay yielded no results;
+    ## utilizing "counts" layer instead.
 
 ![](scExample_files/figure-gfm/mito-1.png)<!-- -->
 
@@ -248,27 +257,27 @@ seurObj <-  FindClusters(seurObj,resolution = 0.2)
 seurObj <-  RunUMAP(seurObj, dims = 1:20)
 ```
 
-    ## 10:19:53 UMAP embedding parameters a = 0.9922 b = 1.112
+    ## 12:10:54 UMAP embedding parameters a = 0.9922 b = 1.112
 
-    ## 10:19:53 Read 4328 rows and found 20 numeric columns
+    ## 12:10:54 Read 4328 rows and found 20 numeric columns
 
-    ## 10:19:53 Using Annoy for neighbor search, n_neighbors = 30
+    ## 12:10:54 Using Annoy for neighbor search, n_neighbors = 30
 
-    ## 10:19:53 Building Annoy index with metric = cosine, n_trees = 50
+    ## 12:10:54 Building Annoy index with metric = cosine, n_trees = 50
 
     ## 0%   10   20   30   40   50   60   70   80   90   100%
 
     ## [----|----|----|----|----|----|----|----|----|----|
 
     ## **************************************************|
-    ## 10:19:53 Writing NN index file to temp file /tmp/RtmpjHu5FP/file2a11fc2c5e639
-    ## 10:19:53 Searching Annoy index using 1 thread, search_k = 3000
-    ## 10:19:54 Annoy recall = 100%
-    ## 10:19:57 Commencing smooth kNN distance calibration using 1 thread with target n_neighbors = 30
-    ## 10:20:03 Initializing from normalized Laplacian + noise (using RSpectra)
-    ## 10:20:03 Commencing optimization for 500 epochs, with 174288 positive edges
-    ## 10:20:03 Using rng type: pcg
-    ## 10:20:09 Optimization finished
+    ## 12:10:54 Writing NN index file to temp file /tmp/RtmpnFYK0q/file35eb1c660e3a97
+    ## 12:10:54 Searching Annoy index using 1 thread, search_k = 3000
+    ## 12:10:55 Annoy recall = 100%
+    ## 12:10:56 Commencing smooth kNN distance calibration using 1 thread with target n_neighbors = 30
+    ## 12:10:59 Initializing from normalized Laplacian + noise (using RSpectra)
+    ## 12:10:59 Commencing optimization for 500 epochs, with 174288 positive edges
+    ## 12:10:59 Using rng type: pcg
+    ## 12:11:04 Optimization finished
 
 ``` r
 # Optional: plot UMAP
@@ -295,28 +304,29 @@ geneSet<-as.list(na.omit(geneSet))
 seurObj <- AddModuleScore(seurObj, features = geneSet, name = names(geneSet))
 ```
 
-    ## Warning: The following features are not present in the object: ADM, WARS, ERO1L, not searching for symbol
-    ## synonyms
-
-    ## Warning: The following features are not present in the object: CHI3L1, S100A10, C8orf4, not searching for
-    ## symbol synonyms
-
-    ## Warning: The following features are not present in the object: PCDHGC3, not searching for symbol synonyms
-
-    ## Warning: The following features are not present in the object: SOX2-OT, LPPR1, PCDHGC3, not searching for
-    ## symbol synonyms
-
-    ## Warning: The following features are not present in the object: TUBB3, CD24, FXYD6, HN1, not searching for
-    ## symbol synonyms
-
-    ## Warning: The following features are not present in the object: STMN2, CD24, HMP19, TUBB3, DLX6-AS1, DLX5,
-    ## HN1, SEPT3, not searching for symbol synonyms
-
-    ## Warning: The following features are not present in the object: KIAA0101, HIST1H4C, MLF1IP, RNASEH2A, FEN1,
-    ## ZWINT, not searching for symbol synonyms
-
-    ## Warning: The following features are not present in the object: CCNB1, CDC20, TROAP, KIF20A, ARL6IP1, SPAG5,
+    ## Warning: The following features are not present in the object: ADM, WARS, ERO1L,
     ## not searching for symbol synonyms
+
+    ## Warning: The following features are not present in the object: CHI3L1, S100A10,
+    ## C8orf4, not searching for symbol synonyms
+
+    ## Warning: The following features are not present in the object: PCDHGC3, not
+    ## searching for symbol synonyms
+
+    ## Warning: The following features are not present in the object: SOX2-OT, LPPR1,
+    ## PCDHGC3, not searching for symbol synonyms
+
+    ## Warning: The following features are not present in the object: TUBB3, CD24,
+    ## FXYD6, HN1, not searching for symbol synonyms
+
+    ## Warning: The following features are not present in the object: STMN2, CD24,
+    ## HMP19, TUBB3, DLX6-AS1, DLX5, HN1, SEPT3, not searching for symbol synonyms
+
+    ## Warning: The following features are not present in the object: KIAA0101,
+    ## HIST1H4C, MLF1IP, RNASEH2A, FEN1, ZWINT, not searching for symbol synonyms
+
+    ## Warning: The following features are not present in the object: CCNB1, CDC20,
+    ## TROAP, KIF20A, ARL6IP1, SPAG5, not searching for symbol synonyms
 
 ``` r
 cellTypes <- names(geneSet)
@@ -324,7 +334,7 @@ cellTypes <- names(geneSet)
 #score name  
 n = ncol(seurObj@meta.data)
 m = length(cellTypes)
-View(seurObj@meta.data)
+#View(seurObj@meta.data)
 colnames(seurObj@meta.data)[n]<- cellTypes[m]
 colnames(seurObj@meta.data)[n-1]<- cellTypes[m-1]
 colnames(seurObj@meta.data)[n-2]<- cellTypes[m-2]
@@ -333,7 +343,8 @@ colnames(seurObj@meta.data)[n-4]<- cellTypes[m-4]
 colnames(seurObj@meta.data)[n-5]<- cellTypes[m-5]
 colnames(seurObj@meta.data)[n-6]<- cellTypes[m-6]
 colnames(seurObj@meta.data)[n-7]<- cellTypes[m-7]
-View(seurObj@meta.data)
+
+#View(seurObj@meta.data)
 #You could get the same result with:
 #for (i in c(m:1)) {
 #  colnames(seurObj@meta.data)[n-i+1] <-  cellTypes[m-i+1]
@@ -341,19 +352,19 @@ View(seurObj@meta.data)
   
 #colnames(seurObj@meta.data)[(ncol(seurObj@meta.data)-length(names(geneSet))+1):ncol(seurObj@meta.data)] <- cellTypes
 
+#select the metadata table of malignant cells 
 maligant_cells <- filter(seurObj@meta.data, type == "tumor") 
 subtype_scores <- select(maligant_cells, all_of(cellTypes)) 
+
+#classify each malignant cell accorting to the maximum score among cell states
 class_mal <- apply(subtype_scores, 1, function(x) cellTypes[which.max(x)])
 
+#add this information to the metadata
+seurObj <- AddMetaData(seurObj, metadata = class_mal, col.name = "cell_type_mal")
 
 
 tumor_colors <- c("darkgreen", "yellow", "orange", "red", "darkred", "darkblue", "blue", "lightblue")
 names(tumor_colors)<- sort(cellTypes)
-
-
-
-
-seurObj <- AddMetaData(seurObj, metadata = class_mal, col.name = "cell_type_mal")
 Seurat::DimPlot(seurObj,group.by =  "cell_type_mal", cols =
                   tumor_colors)
 ```
@@ -390,17 +401,17 @@ markers_normal <- FindAllMarkers(seurObj_norm,
 ``` r
 top_markers <- markers_normal %>%
   group_by(cluster) %>%
-  top_n(n = 10, wt = avg_log2FC) 
-View(top_markers)
+  top_n(n = 20, wt = -p_val_adj) 
+#View(top_markers)
 ```
 
 ``` r
-DoHeatmap(seurObj_norm, features = top_markers$gene,) 
+DoHeatmap(seurObj_norm, features = top_markers$gene) 
 ```
 
-    ## Warning in DoHeatmap(seurObj_norm, features = top_markers$gene, ): The following features were omitted as
-    ## they were not found in the scale.data slot for the RNA assay: RAI2, AC090138.1, NR0B1, MEGF11, PRDM16-DT,
-    ## PAX6, ARL11, TLR7, CEBPA, HRH2, PTGS1, AL121656.1, LINC02473, TMEM151A, PLCH2
+    ## Warning in DoHeatmap(seurObj_norm, features = top_markers$gene): The following
+    ## features were omitted as they were not found in the scale.data slot for the RNA
+    ## assay: CCDC88C, ACAP1, ITGA4, IKZF3, RNF165, CACNG4, IGSF9B, CELF2
 
 ![](scExample_files/figure-gfm/heatmap-1.png)<!-- -->
 
@@ -408,9 +419,9 @@ DoHeatmap(seurObj_norm, features = top_markers$gene,)
 #cluster 2 --> "Neurons"
 p1<-FeaturePlot(seurObj_norm,features = "KIRREL3")
 #cluster 4 --> "Microglia"
-p2<-FeaturePlot(seurObj_norm, features = "CD163")
-#cluster 6 --> "Pericytes"
-p3<- FeaturePlot(seurObj_norm, features = "PDGFRB")
+p2<-FeaturePlot(seurObj_norm, features = "CSF1R")
+#cluster 6 --> "Astrocytes"
+p3<- FeaturePlot(seurObj_norm, features = "IGFBP7")
 #cluster 7 --> "Excitatory neurons"
 p4 <- FeaturePlot(seurObj_norm, features = "GRIN2B")
 #custer 8 --> "Tcells"
@@ -418,10 +429,41 @@ p5 <- FeaturePlot(seurObj_norm, features = "ITK")
 ```
 
 ``` r
-seurObj_norm$cell_type <- as.character(seurObj_norm$seurat_clusters)
+p1
+```
+
+![](scExample_files/figure-gfm/unnamed-chunk-38-1.png)<!-- -->
+
+``` r
+p2
+```
+
+![](scExample_files/figure-gfm/unnamed-chunk-39-1.png)<!-- -->
+
+``` r
+p3
+```
+
+![](scExample_files/figure-gfm/unnamed-chunk-40-1.png)<!-- -->
+
+``` r
+p4
+```
+
+![](scExample_files/figure-gfm/unnamed-chunk-41-1.png)<!-- -->
+
+``` r
+p5
+```
+
+![](scExample_files/figure-gfm/unnamed-chunk-42-1.png)<!-- -->
+
+``` r
+seurObj_norm$cell_type <-"" 
+
 seurObj_norm$cell_type[seurObj_norm$seurat_clusters == 2] <- "Neurons"
 seurObj_norm$cell_type[seurObj_norm$seurat_clusters == 4] <- "Microglia"
-seurObj_norm$cell_type[seurObj_norm$seurat_clusters == 6] <- "Pericytes"
+seurObj_norm$cell_type[seurObj_norm$seurat_clusters == 6] <- "Astrocytes"
 seurObj_norm$cell_type[seurObj_norm$seurat_clusters == 7] <- "Excitatory neurons" 
 seurObj_norm$cell_type[seurObj_norm$seurat_clusters == 8] <- "T-cells"
 DimPlot(seurObj_norm, group.by = "cell_type", label = TRUE)
@@ -430,7 +472,10 @@ DimPlot(seurObj_norm, group.by = "cell_type", label = TRUE)
 ![](scExample_files/figure-gfm/features-1.png)<!-- -->
 
 ``` r
+#add these cl;assification to the original object
 seurObj<-AddMetaData(seurObj,seurObj_norm$cell_type,col.name = "cell_type_norm")
+
+#merge the two annotations
 seurObj$cell_type <- ifelse(!is.na(seurObj$cell_type_mal),
                             seurObj$cell_type_mal,
                             seurObj$cell_type_norm
@@ -439,18 +484,23 @@ table(seurObj$cell_type)
 ```
 
     ## 
-    ##                 AC Excitatory neurons               G1/S               G2/M               MES1 
-    ##                502                 41                 37                 14                 16 
-    ##               MES2          Microglia            Neurons               NPC1               NPC2 
-    ##                  9                573                733                184                 32 
-    ##                OPC          Pericytes            T-cells 
-    ##               2079                 68                 29
+    ##                 AC         Astrocytes Excitatory neurons               G1/S 
+    ##                502                 68                 41                 37 
+    ##               G2/M               MES1               MES2          Microglia 
+    ##                 14                 16                  9                573 
+    ##            Neurons               NPC1               NPC2                OPC 
+    ##                733                184                 32               2079 
+    ##            T-cells 
+    ##                 29
 
 ``` r
+#plot everything
 normal_colors <- c("goldenrod", "grey40", "purple","forestgreen", "brown" )
 names(normal_colors) <- c("Microglia", "Neurons", "Excitatory neurons", "Pericytes", "T-cells")
 cell_colors <- c(tumor_colors, normal_colors)
-DimPlot(seurObj, group.by = "cell_type", label = TRUE, cols = cell_colors) 
+DimPlot(seurObj, group.by = "cell_type", 
+        label = TRUE, 
+        cols = cell_colors) 
 ```
 
-![](scExample_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->
+![](scExample_files/figure-gfm/unnamed-chunk-43-1.png)<!-- -->
