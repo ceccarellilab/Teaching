@@ -497,7 +497,7 @@ table(seurObj$cell_type)
 ``` r
 #plot everything
 normal_colors <- c("goldenrod", "grey40", "purple","forestgreen", "brown" )
-names(normal_colors) <- c("Microglia", "Neurons", "Excitatory neurons", "Pericytes", "T-cells")
+names(normal_colors) <- c("Microglia", "Neurons", "Excitatory neurons", "Astrocytes", "T-cells")
 cell_colors <- c(tumor_colors, normal_colors)
 DimPlot(seurObj, group.by = "cell_type", 
         label = TRUE, 
