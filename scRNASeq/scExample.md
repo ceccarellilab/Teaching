@@ -21,7 +21,6 @@ GSE211376</a>.
 
 ``` r
 count_mtx <- fread("https://github.com/ceccarellilab/CancerBioinformaticsCourse/raw/refs/heads/main/scRNASeq/sample_NH17-161_GSE211376.csv.gz")
-count_mtx <- as.data.frame(count_mtx)
 rownames(count_mtx)<- count_mtx$V1
 count_mtx$V1 <- NULL
 ```
@@ -70,6 +69,15 @@ results <-  SCEVAN::pipelineCNA(
     ## [1] "2) Filter: genes > 10% of cells"
     ## [1] "8687 genes past filtering"
     ## [1] "3) Annotations gene coordinates"
+
+    ## Loading required package: doParallel
+
+    ## Loading required package: foreach
+
+    ## Loading required package: iterators
+
+    ## Loading required package: parallel
+
     ## [1] "found 30 confident non malignant cells"
     ## [1] "7739 genes annotated"
     ## [1] "4) Filter: genes involved in the cell cycle"
@@ -84,7 +92,7 @@ results <-  SCEVAN::pipelineCNA(
     ## [1] "11) plot heatmap"
 
     ## [1] "found 2898 tumor cells"
-    ## [1] "time classify tumor cells:  2.66238601605097"
+    ## [1] "time classify tumor cells:  2.4617964108785"
 
 ``` r
 saveRDS(results, file = "resultSCEVAN_N17-161.RDS")
@@ -133,8 +141,22 @@ VlnPlot(seurObj, features =
         ncol = 3)
 ```
 
-    ## Warning: Default search for "data" layer in "RNA" assay yielded no results;
-    ## utilizing "counts" layer instead.
+    ## Warning: Default search for "data" layer in "RNA" assay yielded no results; utilizing "counts"
+    ## layer instead.
+
+    ## Warning: The `slot` argument of `FetchData()` is deprecated as of SeuratObject 5.0.0.
+    ## ℹ Please use the `layer` argument instead.
+    ## ℹ The deprecated feature was likely used in the Seurat package.
+    ##   Please report the issue at <https://github.com/satijalab/seurat/issues>.
+    ## This warning is displayed once every 8 hours.
+    ## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was generated.
+
+    ## Warning: `PackageCheck()` was deprecated in SeuratObject 5.0.0.
+    ## ℹ Please use `rlang::check_installed()` instead.
+    ## ℹ The deprecated feature was likely used in the Seurat package.
+    ##   Please report the issue at <https://github.com/satijalab/seurat/issues>.
+    ## This warning is displayed once every 8 hours.
+    ## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was generated.
 
 ![](scExample_files/figure-gfm/mito-1.png)<!-- -->
 
@@ -258,27 +280,27 @@ seurObj <-  FindClusters(seurObj,resolution = 0.2)
 seurObj <-  RunUMAP(seurObj, dims = 1:20)
 ```
 
-    ## 12:10:54 UMAP embedding parameters a = 0.9922 b = 1.112
+    ## 19:00:41 UMAP embedding parameters a = 0.9922 b = 1.112
 
-    ## 12:10:54 Read 4328 rows and found 20 numeric columns
+    ## 19:00:41 Read 4328 rows and found 20 numeric columns
 
-    ## 12:10:54 Using Annoy for neighbor search, n_neighbors = 30
+    ## 19:00:41 Using Annoy for neighbor search, n_neighbors = 30
 
-    ## 12:10:54 Building Annoy index with metric = cosine, n_trees = 50
+    ## 19:00:41 Building Annoy index with metric = cosine, n_trees = 50
 
     ## 0%   10   20   30   40   50   60   70   80   90   100%
 
     ## [----|----|----|----|----|----|----|----|----|----|
 
     ## **************************************************|
-    ## 12:10:54 Writing NN index file to temp file /tmp/RtmpnFYK0q/file35eb1c660e3a97
-    ## 12:10:54 Searching Annoy index using 1 thread, search_k = 3000
-    ## 12:10:55 Annoy recall = 100%
-    ## 12:10:56 Commencing smooth kNN distance calibration using 1 thread with target n_neighbors = 30
-    ## 12:10:59 Initializing from normalized Laplacian + noise (using RSpectra)
-    ## 12:10:59 Commencing optimization for 500 epochs, with 174288 positive edges
-    ## 12:10:59 Using rng type: pcg
-    ## 12:11:04 Optimization finished
+    ## 19:00:41 Writing NN index file to temp file /tmp/RtmpoiShyy/file378af72b04e4c5
+    ## 19:00:41 Searching Annoy index using 1 thread, search_k = 3000
+    ## 19:00:42 Annoy recall = 100%
+    ## 19:00:43 Commencing smooth kNN distance calibration using 1 thread with target n_neighbors = 30
+    ## 19:00:45 Initializing from normalized Laplacian + noise (using RSpectra)
+    ## 19:00:45 Commencing optimization for 500 epochs, with 174288 positive edges
+    ## 19:00:45 Using rng type: pcg
+    ## 19:00:49 Optimization finished
 
 ``` r
 # Optional: plot UMAP
@@ -305,29 +327,36 @@ geneSet<-as.list(na.omit(geneSet))
 seurObj <- AddModuleScore(seurObj, features = geneSet, name = names(geneSet))
 ```
 
-    ## Warning: The following features are not present in the object: ADM, WARS, ERO1L,
-    ## not searching for symbol synonyms
+    ## Warning: The `slot` argument of `GetAssayData()` is deprecated as of SeuratObject 5.0.0.
+    ## ℹ Please use the `layer` argument instead.
+    ## ℹ The deprecated feature was likely used in the Seurat package.
+    ##   Please report the issue at <https://github.com/satijalab/seurat/issues>.
+    ## This warning is displayed once every 8 hours.
+    ## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was generated.
 
-    ## Warning: The following features are not present in the object: CHI3L1, S100A10,
-    ## C8orf4, not searching for symbol synonyms
+    ## Warning: The following features are not present in the object: ADM, WARS, ERO1L, not searching
+    ## for symbol synonyms
 
-    ## Warning: The following features are not present in the object: PCDHGC3, not
+    ## Warning: The following features are not present in the object: CHI3L1, S100A10, C8orf4, not
     ## searching for symbol synonyms
 
-    ## Warning: The following features are not present in the object: SOX2-OT, LPPR1,
-    ## PCDHGC3, not searching for symbol synonyms
+    ## Warning: The following features are not present in the object: PCDHGC3, not searching for symbol
+    ## synonyms
 
-    ## Warning: The following features are not present in the object: TUBB3, CD24,
-    ## FXYD6, HN1, not searching for symbol synonyms
+    ## Warning: The following features are not present in the object: SOX2-OT, LPPR1, PCDHGC3, not
+    ## searching for symbol synonyms
 
-    ## Warning: The following features are not present in the object: STMN2, CD24,
-    ## HMP19, TUBB3, DLX6-AS1, DLX5, HN1, SEPT3, not searching for symbol synonyms
+    ## Warning: The following features are not present in the object: TUBB3, CD24, FXYD6, HN1, not
+    ## searching for symbol synonyms
 
-    ## Warning: The following features are not present in the object: KIAA0101,
-    ## HIST1H4C, MLF1IP, RNASEH2A, FEN1, ZWINT, not searching for symbol synonyms
+    ## Warning: The following features are not present in the object: STMN2, CD24, HMP19, TUBB3,
+    ## DLX6-AS1, DLX5, HN1, SEPT3, not searching for symbol synonyms
 
-    ## Warning: The following features are not present in the object: CCNB1, CDC20,
-    ## TROAP, KIF20A, ARL6IP1, SPAG5, not searching for symbol synonyms
+    ## Warning: The following features are not present in the object: KIAA0101, HIST1H4C, MLF1IP,
+    ## RNASEH2A, FEN1, ZWINT, not searching for symbol synonyms
+
+    ## Warning: The following features are not present in the object: CCNB1, CDC20, TROAP, KIF20A,
+    ## ARL6IP1, SPAG5, not searching for symbol synonyms
 
 ``` r
 cellTypes <- names(geneSet)
@@ -410,9 +439,9 @@ top_markers <- markers_normal %>%
 DoHeatmap(seurObj_norm, features = top_markers$gene) 
 ```
 
-    ## Warning in DoHeatmap(seurObj_norm, features = top_markers$gene): The following
-    ## features were omitted as they were not found in the scale.data slot for the RNA
-    ## assay: CCDC88C, ACAP1, ITGA4, IKZF3, RNF165, CACNG4, IGSF9B, CELF2
+    ## Warning in DoHeatmap(seurObj_norm, features = top_markers$gene): The following features were
+    ## omitted as they were not found in the scale.data slot for the RNA assay: CCDC88C, ACAP1, ITGA4,
+    ## IKZF3, RNF165, CACNG4, IGSF9B, CELF2
 
 ![](scExample_files/figure-gfm/heatmap-1.png)<!-- -->
 
@@ -433,31 +462,31 @@ p5 <- FeaturePlot(seurObj_norm, features = "ITK")
 p1
 ```
 
-![](scExample_files/figure-gfm/unnamed-chunk-38-1.png)<!-- -->
+![](scExample_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
 
 ``` r
 p2
 ```
 
-![](scExample_files/figure-gfm/unnamed-chunk-39-1.png)<!-- -->
+![](scExample_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
 
 ``` r
 p3
 ```
 
-![](scExample_files/figure-gfm/unnamed-chunk-40-1.png)<!-- -->
+![](scExample_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
 
 ``` r
 p4
 ```
 
-![](scExample_files/figure-gfm/unnamed-chunk-41-1.png)<!-- -->
+![](scExample_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->
 
 ``` r
 p5
 ```
 
-![](scExample_files/figure-gfm/unnamed-chunk-42-1.png)<!-- -->
+![](scExample_files/figure-gfm/unnamed-chunk-7-1.png)<!-- -->
 
 ``` r
 seurObj_norm$cell_type <-"" 
@@ -485,14 +514,12 @@ table(seurObj$cell_type)
 ```
 
     ## 
-    ##                 AC         Astrocytes Excitatory neurons               G1/S 
-    ##                502                 68                 41                 37 
-    ##               G2/M               MES1               MES2          Microglia 
-    ##                 14                 16                  9                573 
-    ##            Neurons               NPC1               NPC2                OPC 
-    ##                733                184                 32               2079 
-    ##            T-cells 
-    ##                 29
+    ##                 AC         Astrocytes Excitatory neurons               G1/S               G2/M 
+    ##                502                 68                 41                 37                 14 
+    ##               MES1               MES2          Microglia            Neurons               NPC1 
+    ##                 16                  9                573                733                184 
+    ##               NPC2                OPC            T-cells 
+    ##                 32               2079                 29
 
 ``` r
 #plot everything
@@ -504,4 +531,4 @@ DimPlot(seurObj, group.by = "cell_type",
         cols = cell_colors) 
 ```
 
-![](scExample_files/figure-gfm/unnamed-chunk-43-1.png)<!-- -->
+![](scExample_files/figure-gfm/unnamed-chunk-8-1.png)<!-- -->
